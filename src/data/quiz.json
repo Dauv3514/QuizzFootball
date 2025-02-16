@@ -1,292 +1,296 @@
-
 [
     {
         "id": 1,
-        "img": "https://marvel-b1-cdn.bc0a.com/f00000000026007/resilienteducator.com/wp-content/uploads/2012/11/AdobeStock_60467600_cup.jpg",
-        "name": "Math",
+        "img": "https://www.francebleu.fr/s3/cruiser-production/2019/03/a98102ae-5e60-4558-b404-f43cfab46b86/1200x680_coupe-du-monde.jpg",
+        "name": "Histoire de la Coupe du Monde",
         "questions": [
             {
                 "id": 1,
-                "text": "8 ÷ 2(2 + 2)",
+                "text": "Quelle équipe a remporté la première Coupe du Monde en 1930 ?",
                 "options": [
-                    {
-                        "id": 1,
-                        "label": "A",
-                        "text": "16",
-                        "isCorrect": true
-                    },
-                    {
-                        "id": 2,
-                        "label": "B",
-                        "text": "1",
-                        "isCorrect": false
-                    },
-                    {
-                        "id": 3,
-                        "label": "C",
-                        "text": "8",
-                        "isCorrect": false
-                    },
-                    {
-                        "id": 4,
-                        "label": "D",
-                        "text": "24",
-                        "isCorrect": false
-                    }
+                    { "id": 1, "label": "A", "text": "Brésil", "isCorrect": false },
+                    { "id": 2, "label": "B", "text": "Allemagne", "isCorrect": false },
+                    { "id": 3, "label": "C", "text": "Uruguay", "isCorrect": true },
+                    { "id": 4, "label": "D", "text": "Italie", "isCorrect": false }
                 ]
             },
             {
                 "id": 2,
-                "text": "sqrt(64) * 9",
+                "text": "Quel joueur détient le record du plus grand nombre de buts en Coupe du Monde ?",
                 "options": [
-                    {
-                        "id": 1,
-                        "label": "A",
-                        "text": "4",
-                        "isCorrect": false
-                    },
-                    {
-                        "id": 2,
-                        "label": "B",
-                        "text": "81",
-                        "isCorrect": false
-                    },
-                    {
-                        "id": 3,
-                        "label": "C",
-                        "text": "72",
-                        "isCorrect": true
-                    },
-                    {
-                        "id": 4,
-                        "label": "D",
-                        "text": "144",
-                        "isCorrect": false
-                    }
+                    { "id": 1, "label": "A", "text": "Pelé", "isCorrect": false },
+                    { "id": 2, "label": "B", "text": "Miroslav Klose", "isCorrect": true },
+                    { "id": 3, "label": "C", "text": "Ronaldo", "isCorrect": false },
+                    { "id": 4, "label": "D", "text": "Gerd Müller", "isCorrect": false }
                 ]
             },
             {
                 "id": 3,
-                "text": "3 + 3 x 3 ÷ 3 - 3",
+                "text": "Quelle nation a remporté la Coupe du Monde 2018 ?",
                 "options": [
-                    {
-                        "id": 1,
-                        "label": "A",
-                        "text": "3",
-                        "isCorrect": true
-                    },
-                    {
-                        "id": 2,
-                        "label": "B",
-                        "text": "1",
-                        "isCorrect": false
-                    },
-                    {
-                        "id": 3,
-                        "label": "C",
-                        "text": "9",
-                        "isCorrect": false
-                    },
-                    {
-                        "id": 4,
-                        "label": "D",
-                        "text": "16",
-                        "isCorrect": false
-                    }
+                    { "id": 1, "label": "A", "text": "Brésil", "isCorrect": false },
+                    { "id": 2, "label": "B", "text": "France", "isCorrect": true },
+                    { "id": 3, "label": "C", "text": "Argentine", "isCorrect": false },
+                    { "id": 4, "label": "D", "text": "Espagne", "isCorrect": false }
                 ]
             }
         ]
     },
     {
         "id": 2,
-        "img": "https://blogs.biomedcentral.com/on-biology/wp-content/uploads/sites/5/2017/12/DNA.png",
-        "name": "Biology",
+        "img": "https://www.sportstrategies.com/wp-content/uploads/2020/08/unnamed-4.jpg",
+        "name": "Ligue des Champions UEFA",
         "questions": [
             {
                 "id": 1,
-                "text": "The Kreb Cycles occurs in the",
+                "text": "Quel club détient le record de victoires en Ligue des Champions ?",
                 "options": [
-                    {
-                        "id": 1,
-                        "label": "A",
-                        "text": "Mitochondria",
-                        "isCorrect": true
-                    },
-                    {
-                        "id": 2,
-                        "label": "B",
-                        "text": "Nucleus",
-                        "isCorrect": false
-                    },
-                    {
-                        "id": 3,
-                        "label": "C",
-                        "text": "Rough ER",
-                        "isCorrect": false
-                    },
-                    {
-                        "id": 4,
-                        "label": "D",
-                        "text": "Cystol",
-                        "isCorrect": false
-                    }
+                    { "id": 1, "label": "A", "text": "FC Barcelone", "isCorrect": false },
+                    { "id": 2, "label": "B", "text": "AC Milan", "isCorrect": false },
+                    { "id": 3, "label": "C", "text": "Real Madrid", "isCorrect": true },
+                    { "id": 4, "label": "D", "text": "Manchester United", "isCorrect": false }
                 ]
             },
             {
                 "id": 2,
-                "text": "How many oxygen molecules can hemoglobin hold",
+                "text": "Quel joueur est le meilleur buteur de l’histoire de la Ligue des Champions ?",
                 "options": [
-                    {
-                        "id": 1,
-                        "label": "A",
-                        "text": "1",
-                        "isCorrect": false
-                    },
-                    {
-                        "id": 2,
-                        "label": "B",
-                        "text": "2",
-                        "isCorrect": false
-                    },
-                    {
-                        "id": 3,
-                        "label": "C",
-                        "text": "3",
-                        "isCorrect": false
-                    },
-                    {
-                        "id": 4,
-                        "label": "D",
-                        "text": "4",
-                        "isCorrect": true
-                    }
+                    { "id": 1, "label": "A", "text": "Lionel Messi", "isCorrect": false },
+                    { "id": 2, "label": "B", "text": "Cristiano Ronaldo", "isCorrect": true },
+                    { "id": 3, "label": "C", "text": "Robert Lewandowski", "isCorrect": false },
+                    { "id": 4, "label": "D", "text": "Raúl", "isCorrect": false }
                 ]
             },
             {
                 "id": 3,
-                "text": "The cones see ___ while the rods see ___",
+                "text": "Quel club a remporté la Ligue des Champions en 2021 ?",
                 "options": [
-                    {
-                        "id": 1,
-                        "label": "A",
-                        "text": "black and white; color",
-                        "isCorrect": false
-                    },
-                    {
-                        "id": 2,
-                        "label": "B",
-                        "text": "color; black and white",
-                        "isCorrect": true
-                    },
-                    {
-                        "id": 3,
-                        "label": "C",
-                        "text": "3D objects; 2D shapes",
-                        "isCorrect": false
-                    },
-                    {
-                        "id": 4,
-                        "label": "D",
-                        "text": "2D shapes; 3D objects",
-                        "isCorrect": false
-                    }
+                    { "id": 1, "label": "A", "text": "Manchester City", "isCorrect": false },
+                    { "id": 2, "label": "B", "text": "Chelsea", "isCorrect": true },
+                    { "id": 3, "label": "C", "text": "Paris Saint-Germain", "isCorrect": false },
+                    { "id": 4, "label": "D", "text": "Bayern Munich", "isCorrect": false }
                 ]
             }
         ]
     },
     {
         "id": 3,
-        "img": "http://jobs.newscientist.com/getasset/c40a5488-11be-43b0-843f-a2e6ef9f0612/",
-        "name": "Chemistry",
+        "name": "Les légendes du football",
+        "img": "https://images.midilibre.fr/api/v1/images/view/5fd8a9e8d286c25ea343806a/hd/image.jpg?v=3",
         "questions": [
             {
                 "id": 1,
-                "text": "What is the composition of table salt",
+                "text": "Quel joueur est surnommé 'Le Roi' ?",
                 "options": [
-                    {
-                        "id": 1,
-                        "label": "A",
-                        "text": "NaCl",
-                        "isCorrect": true
-                    },
-                    {
-                        "id": 2,
-                        "label": "B",
-                        "text": "K2",
-                        "isCorrect": false
-                    },
-                    {
-                        "id": 3,
-                        "label": "C",
-                        "text": "NaCl2C4H7",
-                        "isCorrect": false
-                    },
-                    {
-                        "id": 4,
-                        "label": "D",
-                        "text": "CH4",
-                        "isCorrect": false
-                    }
+                    { "id": 1, "label": "A", "text": "Maradona", "isCorrect": false },
+                    { "id": 2, "label": "B", "text": "Pelé", "isCorrect": true },
+                    { "id": 3, "label": "C", "text": "Zidane", "isCorrect": false },
+                    { "id": 4, "label": "D", "text": "Cristiano Ronaldo", "isCorrect": false }
                 ]
             },
             {
                 "id": 2,
-                "text": "What is Potassium's chemical symbol",
+                "text": "Quel joueur a gagné 7 Ballons d'Or ?",
                 "options": [
-                    {
-                        "id": 1,
-                        "label": "A",
-                        "text": "P",
-                        "isCorrect": false
-                    },
-                    {
-                        "id": 2,
-                        "label": "B",
-                        "text": "Pt",
-                        "isCorrect": false
-                    },
-                    {
-                        "id": 3,
-                        "label": "C",
-                        "text": "Pts",
-                        "isCorrect": false
-                    },
-                    {
-                        "id": 4,
-                        "label": "D",
-                        "text": "K",
-                        "isCorrect": true
-                    }
+                    { "id": 1, "label": "A", "text": "Lionel Messi", "isCorrect": true },
+                    { "id": 2, "label": "B", "text": "Cristiano Ronaldo", "isCorrect": false },
+                    { "id": 3, "label": "C", "text": "Michel Platini", "isCorrect": false },
+                    { "id": 4, "label": "D", "text": "Johan Cruyff", "isCorrect": false }
                 ]
             },
             {
                 "id": 3,
-                "text": "Which is not organinc",
+                "text": "Quel joueur a marqué le but de la 'Main de Dieu' en Coupe du Monde ?",
                 "options": [
-                    {
-                        "id": 1,
-                        "label": "A",
-                        "text": "CH4",
-                        "isCorrect": false
-                    },
-                    {
-                        "id": 2,
-                        "label": "B",
-                        "text": "NaCl",
-                        "isCorrect": true
-                    },
-                    {
-                        "id": 3,
-                        "label": "C",
-                        "text": "C2H6",
-                        "isCorrect": false
-                    },
-                    {
-                        "id": 4,
-                        "label": "D",
-                        "text": "C3H8",
-                        "isCorrect": false
-                    }
+                    { "id": 1, "label": "A", "text": "Diego Maradona", "isCorrect": true },
+                    { "id": 2, "label": "B", "text": "Pelé", "isCorrect": false },
+                    { "id": 3, "label": "C", "text": "Zinedine Zidane", "isCorrect": false },
+                    { "id": 4, "label": "D", "text": "Ronaldo Nazário", "isCorrect": false }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 4,
+        "name": "Les clubs historiques",
+        "img": "https://cdn-www.konbini.com/files/2015/10/cover-logo.jpg",
+        "questions": [
+            {
+                "id": 1,
+                "text": "Quel club a remporté le plus de championnats d'Angleterre ?",
+                "options": [
+                    { "id": 1, "label": "A", "text": "Manchester United", "isCorrect": true },
+                    { "id": 2, "label": "B", "text": "Liverpool", "isCorrect": false },
+                    { "id": 3, "label": "C", "text": "Arsenal", "isCorrect": false },
+                    { "id": 4, "label": "D", "text": "Chelsea", "isCorrect": false }
+                ]
+            },
+            {
+                "id": 2,
+                "text": "Quel club détient le record de victoires en Serie A italienne ?",
+                "options": [
+                    { "id": 1, "label": "A", "text": "AC Milan", "isCorrect": false },
+                    { "id": 2, "label": "B", "text": "Inter Milan", "isCorrect": false },
+                    { "id": 3, "label": "C", "text": "Juventus", "isCorrect": true },
+                    { "id": 4, "label": "D", "text": "Naples", "isCorrect": false }
+                ]
+            },
+            {
+                "id": 3,
+                "text": "Quel club est surnommé 'Les Blaugrana' ?",
+                "options": [
+                    { "id": 1, "label": "A", "text": "Real Madrid", "isCorrect": false },
+                    { "id": 2, "label": "B", "text": "Atlético Madrid", "isCorrect": false },
+                    { "id": 3, "label": "C", "text": "FC Barcelone", "isCorrect": true },
+                    { "id": 4, "label": "D", "text": "Séville FC", "isCorrect": false }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 5,
+        "name": "Records et statistiques",
+        "img": "https://cdn-www.konbini.com/files/2015/08/Messi-1.jpg?width=3840&quality=75&format=webp",
+        "questions": [
+            {
+                "id": 1,
+                "text": "Quel joueur détient le record du plus grand nombre de buts inscrits en une seule saison de Ligue des Champions ?",
+                "options": [
+                    { "id": 1, "label": "A", "text": "Lionel Messi", "isCorrect": false },
+                    { "id": 2, "label": "B", "text": "Cristiano Ronaldo", "isCorrect": true },
+                    { "id": 3, "label": "C", "text": "Robert Lewandowski", "isCorrect": false },
+                    { "id": 4, "label": "D", "text": "Karim Benzema", "isCorrect": false }
+                ]
+            },
+            {
+                "id": 2,
+                "text": "Quel est le score le plus large jamais enregistré en Coupe du Monde ?",
+                "options": [
+                    { "id": 1, "label": "A", "text": "10-0", "isCorrect": false },
+                    { "id": 2, "label": "B", "text": "12-0", "isCorrect": false },
+                    { "id": 3, "label": "C", "text": "13-0", "isCorrect": true },
+                    { "id": 4, "label": "D", "text": "14-0", "isCorrect": false }
+                ]
+            },
+            {
+                "id": 3,
+                "text": "Quel joueur a remporté le plus grand nombre de Ligues des Champions en tant que joueur ?",
+                "options": [
+                    { "id": 1, "label": "A", "text": "Cristiano Ronaldo", "isCorrect": false },
+                    { "id": 2, "label": "B", "text": "Lionel Messi", "isCorrect": false },
+                    { "id": 3, "label": "C", "text": "Francisco Gento", "isCorrect": true },
+                    { "id": 4, "label": "D", "text": "Paolo Maldini", "isCorrect": false }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 6,
+        "name": "Les Coupes Nationales",
+        "img": "https://media.ouest-france.fr/v1/pictures/MjAxOTA0NDhlYjI4NWQ5NjFkMTBhN2U0NDMzZTQ2NjFhNWEyZjY?width=1260&height=708&focuspoint=50%2C25&cropresize=1&client_id=bpeditorial&sign=21b268270d9e1c7474644bc8d6ce5afd1678ee3a25d204cca74fa2d7416f4ae8",
+        "questions": [
+            {
+                "id": 1,
+                "text": "Quel club détient le record de victoires en Coupe de France ?",
+                "options": [
+                    { "id": 1, "label": "A", "text": "Paris Saint-Germain", "isCorrect": true },
+                    { "id": 2, "label": "B", "text": "Marseille", "isCorrect": false },
+                    { "id": 3, "label": "C", "text": "Saint-Étienne", "isCorrect": false },
+                    { "id": 4, "label": "D", "text": "Lyon", "isCorrect": false }
+                ]
+            },
+            {
+                "id": 2,
+                "text": "Quelle équipe a remporté le plus de FA Cup en Angleterre ?",
+                "options": [
+                    { "id": 1, "label": "A", "text": "Liverpool", "isCorrect": false },
+                    { "id": 2, "label": "B", "text": "Manchester United", "isCorrect": false },
+                    { "id": 3, "label": "C", "text": "Arsenal", "isCorrect": true },
+                    { "id": 4, "label": "D", "text": "Chelsea", "isCorrect": false }
+                ]
+            },
+            {
+                "id": 3,
+                "text": "Quel club a remporté le plus de Coupes d'Allemagne (DFB Pokal) ?",
+                "options": [
+                    { "id": 1, "label": "A", "text": "Borussia Dortmund", "isCorrect": false },
+                    { "id": 2, "label": "B", "text": "Bayern Munich", "isCorrect": true },
+                    { "id": 3, "label": "C", "text": "Hambourg", "isCorrect": false },
+                    { "id": 4, "label": "D", "text": "RB Leipzig", "isCorrect": false }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 7,
+        "name": "Les entraîneurs légendaires",
+        "img": "https://images2.minutemediacdn.com/image/upload/c_fill,w_720,ar_16:9,f_auto,q_auto,g_auto/shape/cover/sport/dataimagejpegbase649j4RluRXhpZgAATU0AKgAAAAgABwESA-79f97e28c00f20a5515eee684c076631.jpg",
+        "questions": [
+            {
+                "id": 1,
+                "text": "Quel entraîneur a remporté le plus de Ligues des Champions ?",
+                "options": [
+                    { "id": 1, "label": "A", "text": "Pep Guardiola", "isCorrect": false },
+                    { "id": 2, "label": "B", "text": "Carlo Ancelotti", "isCorrect": true },
+                    { "id": 3, "label": "C", "text": "José Mourinho", "isCorrect": false },
+                    { "id": 4, "label": "D", "text": "Zinedine Zidane", "isCorrect": false }
+                ]
+            },
+            {
+                "id": 2,
+                "text": "Quel entraîneur a mené Manchester United à 13 titres de Premier League ?",
+                "options": [
+                    { "id": 1, "label": "A", "text": "Arsène Wenger", "isCorrect": false },
+                    { "id": 2, "label": "B", "text": "Alex Ferguson", "isCorrect": true },
+                    { "id": 3, "label": "C", "text": "José Mourinho", "isCorrect": false },
+                    { "id": 4, "label": "D", "text": "Jürgen Klopp", "isCorrect": false }
+                ]
+            },
+            {
+                "id": 3,
+                "text": "Quel entraîneur a remporté la Coupe du Monde 2018 avec la France ?",
+                "options": [
+                    { "id": 1, "label": "A", "text": "Raymond Domenech", "isCorrect": false },
+                    { "id": 2, "label": "B", "text": "Didier Deschamps", "isCorrect": true },
+                    { "id": 3, "label": "C", "text": "Laurent Blanc", "isCorrect": false },
+                    { "id": 4, "label": "D", "text": "Aimé Jacquet", "isCorrect": false }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 8,
+        "name": "Les joueurs emblématiques par poste",
+        "img": "https://www.foot01.com/img/images/1200x/2022/Aug/21/psg-neymar-a-reuni-un-clan-parisien-apres-l-affaire-mbappe-icon_19082022-_dsc5006-2-348415.jpg",
+        "questions": [
+            {
+                "id": 1,
+                "text": "Quel gardien de but a remporté 5 Ligues des Champions avec le Real Madrid ?",
+                "options": [
+                    { "id": 1, "label": "A", "text": "Gianluigi Buffon", "isCorrect": false },
+                    { "id": 2, "label": "B", "text": "Manuel Neuer", "isCorrect": false },
+                    { "id": 3, "label": "C", "text": "Iker Casillas", "isCorrect": true },
+                    { "id": 4, "label": "D", "text": "Petr Čech", "isCorrect": false }
+                ]
+            },
+            {
+                "id": 2,
+                "text": "Quel défenseur est surnommé 'Le Kaiser' ?",
+                "options": [
+                    { "id": 1, "label": "A", "text": "Franz Beckenbauer", "isCorrect": true },
+                    { "id": 2, "label": "B", "text": "Paolo Maldini", "isCorrect": false },
+                    { "id": 3, "label": "C", "text": "Sergio Ramos", "isCorrect": false },
+                    { "id": 4, "label": "D", "text": "Fabio Cannavaro", "isCorrect": false }
+                ]
+            },
+            {
+                "id": 3,
+                "text": "Quel attaquant est le meilleur buteur de l'histoire de l'équipe de France ?",
+                "options": [
+                    { "id": 1, "label": "A", "text": "Thierry Henry", "isCorrect": false },
+                    { "id": 2, "label": "B", "text": "Olivier Giroud", "isCorrect": true },
+                    { "id": 3, "label": "C", "text": "Michel Platini", "isCorrect": false },
+                    { "id": 4, "label": "D", "text": "David Trezeguet", "isCorrect": false }
                 ]
             }
         ]
