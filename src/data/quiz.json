@@ -7,6 +7,7 @@
             {
                 "id": 1,
                 "text": "Quelle équipe a remporté la première Coupe du Monde en 1930 ?",
+                "indice": "Cette équipe est sud-américaine.",
                 "options": [
                     { "id": 1, "label": "A", "text": "Brésil", "isCorrect": false },
                     { "id": 2, "label": "B", "text": "Allemagne", "isCorrect": false },
@@ -17,6 +18,7 @@
             {
                 "id": 2,
                 "text": "Quel joueur détient le record du plus grand nombre de buts en Coupe du Monde ?",
+                "indice": "Ce joueur est allemand.",
                 "options": [
                     { "id": 1, "label": "A", "text": "Pelé", "isCorrect": false },
                     { "id": 2, "label": "B", "text": "Miroslav Klose", "isCorrect": true },
@@ -27,6 +29,7 @@
             {
                 "id": 3,
                 "text": "Quelle nation a remporté la Coupe du Monde 2018 ?",
+                "indice": "Cette équipe est européenne.",
                 "options": [
                     { "id": 1, "label": "A", "text": "Brésil", "isCorrect": false },
                     { "id": 2, "label": "B", "text": "France", "isCorrect": true },
@@ -44,6 +47,7 @@
             {
                 "id": 1,
                 "text": "Quel club détient le record de victoires en Ligue des Champions ?",
+                "indice": "Ce club est espagnol.",
                 "options": [
                     { "id": 1, "label": "A", "text": "FC Barcelone", "isCorrect": false },
                     { "id": 2, "label": "B", "text": "AC Milan", "isCorrect": false },
@@ -54,6 +58,7 @@
             {
                 "id": 2,
                 "text": "Quel joueur est le meilleur buteur de l’histoire de la Ligue des Champions ?",
+                "indice": "Ce joueur est portugais.",
                 "options": [
                     { "id": 1, "label": "A", "text": "Lionel Messi", "isCorrect": false },
                     { "id": 2, "label": "B", "text": "Cristiano Ronaldo", "isCorrect": true },
@@ -64,6 +69,7 @@
             {
                 "id": 3,
                 "text": "Quel club a remporté la Ligue des Champions en 2021 ?",
+                "indice": "Ce club est anglais.",
                 "options": [
                     { "id": 1, "label": "A", "text": "Manchester City", "isCorrect": false },
                     { "id": 2, "label": "B", "text": "Chelsea", "isCorrect": true },
@@ -81,6 +87,7 @@
             {
                 "id": 1,
                 "text": "Quel joueur est surnommé 'Le Roi' ?",
+                "indice": "Ce joueur est brésilien.",
                 "options": [
                     { "id": 1, "label": "A", "text": "Maradona", "isCorrect": false },
                     { "id": 2, "label": "B", "text": "Pelé", "isCorrect": true },
@@ -91,6 +98,7 @@
             {
                 "id": 2,
                 "text": "Quel joueur a gagné 7 Ballons d'Or ?",
+                "indice": "Ce joueur est argentin.",
                 "options": [
                     { "id": 1, "label": "A", "text": "Lionel Messi", "isCorrect": true },
                     { "id": 2, "label": "B", "text": "Cristiano Ronaldo", "isCorrect": false },
@@ -101,6 +109,7 @@
             {
                 "id": 3,
                 "text": "Quel joueur a marqué le but de la 'Main de Dieu' en Coupe du Monde ?",
+                "indice": "Ce joueur est argentin.",
                 "options": [
                     { "id": 1, "label": "A", "text": "Diego Maradona", "isCorrect": true },
                     { "id": 2, "label": "B", "text": "Pelé", "isCorrect": false },
@@ -118,6 +127,7 @@
             {
                 "id": 1,
                 "text": "Quel club a remporté le plus de championnats d'Angleterre ?",
+                "indice": "Ce club est basé à Manchester.",
                 "options": [
                     { "id": 1, "label": "A", "text": "Manchester United", "isCorrect": true },
                     { "id": 2, "label": "B", "text": "Liverpool", "isCorrect": false },
@@ -128,6 +138,7 @@
             {
                 "id": 2,
                 "text": "Quel club détient le record de victoires en Serie A italienne ?",
+                "indice": "Ce club est basé à Turin.",
                 "options": [
                     { "id": 1, "label": "A", "text": "AC Milan", "isCorrect": false },
                     { "id": 2, "label": "B", "text": "Inter Milan", "isCorrect": false },
@@ -138,6 +149,7 @@
             {
                 "id": 3,
                 "text": "Quel club est surnommé 'Les Blaugrana' ?",
+                "indice": "Ce club est basé à Barcelone.",
                 "options": [
                     { "id": 1, "label": "A", "text": "Real Madrid", "isCorrect": false },
                     { "id": 2, "label": "B", "text": "Atlético Madrid", "isCorrect": false },
@@ -155,6 +167,7 @@
             {
                 "id": 1,
                 "text": "Quel joueur détient le record du plus grand nombre de buts inscrits en une seule saison de Ligue des Champions ?",
+                "indice": "Ce joueur est portugais.",
                 "options": [
                     { "id": 1, "label": "A", "text": "Lionel Messi", "isCorrect": false },
                     { "id": 2, "label": "B", "text": "Cristiano Ronaldo", "isCorrect": true },
@@ -165,6 +178,7 @@
             {
                 "id": 2,
                 "text": "Quel est le score le plus large jamais enregistré en Coupe du Monde ?",
+                "indice": "Ce score a été enregistré lors de la Coupe du Monde 2001.",
                 "options": [
                     { "id": 1, "label": "A", "text": "10-0", "isCorrect": false },
                     { "id": 2, "label": "B", "text": "12-0", "isCorrect": false },
@@ -175,6 +189,7 @@
             {
                 "id": 3,
                 "text": "Quel joueur a remporté le plus grand nombre de Ligues des Champions en tant que joueur ?",
+                "indice": "Ce joueur est espagnol.",
                 "options": [
                     { "id": 1, "label": "A", "text": "Cristiano Ronaldo", "isCorrect": false },
                     { "id": 2, "label": "B", "text": "Lionel Messi", "isCorrect": false },
@@ -192,6 +207,7 @@
             {
                 "id": 1,
                 "text": "Quel club détient le record de victoires en Coupe de France ?",
+                "indice": "Ce club est basé à Paris.",
                 "options": [
                     { "id": 1, "label": "A", "text": "Paris Saint-Germain", "isCorrect": true },
                     { "id": 2, "label": "B", "text": "Marseille", "isCorrect": false },
@@ -202,6 +218,7 @@
             {
                 "id": 2,
                 "text": "Quelle équipe a remporté le plus de FA Cup en Angleterre ?",
+                "indice": "Ce club est basé à Londres.",
                 "options": [
                     { "id": 1, "label": "A", "text": "Liverpool", "isCorrect": false },
                     { "id": 2, "label": "B", "text": "Manchester United", "isCorrect": false },
@@ -212,6 +229,7 @@
             {
                 "id": 3,
                 "text": "Quel club a remporté le plus de Coupes d'Allemagne (DFB Pokal) ?",
+                "indice": "Ce club est basé à Munich.",
                 "options": [
                     { "id": 1, "label": "A", "text": "Borussia Dortmund", "isCorrect": false },
                     { "id": 2, "label": "B", "text": "Bayern Munich", "isCorrect": true },
@@ -229,6 +247,7 @@
             {
                 "id": 1,
                 "text": "Quel entraîneur a remporté le plus de Ligues des Champions ?",
+                "indice": "Cet entraîneur est italien.",
                 "options": [
                     { "id": 1, "label": "A", "text": "Pep Guardiola", "isCorrect": false },
                     { "id": 2, "label": "B", "text": "Carlo Ancelotti", "isCorrect": true },
@@ -239,6 +258,7 @@
             {
                 "id": 2,
                 "text": "Quel entraîneur a mené Manchester United à 13 titres de Premier League ?",
+                "indice": "Cet entraîneur est écossais.",
                 "options": [
                     { "id": 1, "label": "A", "text": "Arsène Wenger", "isCorrect": false },
                     { "id": 2, "label": "B", "text": "Alex Ferguson", "isCorrect": true },
@@ -249,6 +269,7 @@
             {
                 "id": 3,
                 "text": "Quel entraîneur a remporté la Coupe du Monde 2018 avec la France ?",
+                "indice": "Cet entraîneur est français.",
                 "options": [
                     { "id": 1, "label": "A", "text": "Raymond Domenech", "isCorrect": false },
                     { "id": 2, "label": "B", "text": "Didier Deschamps", "isCorrect": true },
@@ -266,6 +287,7 @@
             {
                 "id": 1,
                 "text": "Quel gardien de but a remporté 5 Ligues des Champions avec le Real Madrid ?",
+                "indice": "Ce gardien est espagnol.",
                 "options": [
                     { "id": 1, "label": "A", "text": "Gianluigi Buffon", "isCorrect": false },
                     { "id": 2, "label": "B", "text": "Manuel Neuer", "isCorrect": false },
@@ -276,6 +298,7 @@
             {
                 "id": 2,
                 "text": "Quel défenseur est surnommé 'Le Kaiser' ?",
+                "indice": "Ce défenseur est allemand.",
                 "options": [
                     { "id": 1, "label": "A", "text": "Franz Beckenbauer", "isCorrect": true },
                     { "id": 2, "label": "B", "text": "Paolo Maldini", "isCorrect": false },
@@ -286,6 +309,7 @@
             {
                 "id": 3,
                 "text": "Quel attaquant est le meilleur buteur de l'histoire de l'équipe de France ?",
+                "indice": "Cet attaquant est français.",
                 "options": [
                     { "id": 1, "label": "A", "text": "Thierry Henry", "isCorrect": false },
                     { "id": 2, "label": "B", "text": "Olivier Giroud", "isCorrect": true },

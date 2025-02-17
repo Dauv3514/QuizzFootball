@@ -8,6 +8,7 @@
     <div class="results">
         <p> Vos résultats </p>
         <h1>{{numberOfCorrectAnswers}}/{{quizQuestionLength}}</h1>
+        <p v-if="numberOfCorrectAnswers === quizQuestionLength"> Bravo, tu as réussi entièrement le quizz ! 🎉 </p>
         <RouterLink to="/"> Retour à l'accueil</RouterLink>
     </div>
 </template>

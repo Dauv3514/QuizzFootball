@@ -3,18 +3,20 @@
 
     const {
         questionStatus, 
-        barPercentage
+        barPercentage,
     } = defineProps([
         "questionStatus", 
-        "barPercentage"
+        "barPercentage",
     ])
+
+    console.log(questionStatus, 'rrerererer');
 
 </script>
 
 <template>
     <header>
         <h4>Question {{ questionStatus}}</h4>
-        <div class="bar">
+        <div class="bar" :style="questionStatus === '0/3' ? {border: '2px solid black'} : {}">
             <div class="completion" :style="{width: barPercentage}">
             </div>
         </div>
