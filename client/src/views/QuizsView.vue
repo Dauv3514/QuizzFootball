@@ -2,9 +2,12 @@
   import q from "../data/quiz.json"
   import {ref, watch} from "vue"
   import Card from "../components/Card.vue"
+  import useFetch from "../hooks/useFetch";
 
   const quiz = ref(q)
   const search = ref("")
+  const {data, loading, error} = useFetch(`/api/themes`)
+  console.log(data, 'cestbon');
 
   watch(search, () => {
     console.log("Hello from watch", search);
