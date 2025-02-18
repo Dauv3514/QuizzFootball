@@ -1,9 +1,11 @@
 import client from "./database.js"
-// import express from "express";
 
 const connect = async () => {
     try {
         await client.connect();
+        console.log("Host:", client.host);
+        console.log("Port:", client.port);
+        console.log("User:", client.user);
         console.log("Connecté à la base de données :", client.database);
         // const app = express();
         // app.listen(8800, () => {
