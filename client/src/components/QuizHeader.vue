@@ -9,8 +9,6 @@
         "barPercentage",
     ])
 
-    console.log(questionStatus, 'rrerererer');
-
 </script>
 
 <template>

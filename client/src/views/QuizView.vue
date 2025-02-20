@@ -6,45 +6,42 @@
     import Answers from "../components/Answers.vue"
     import Index from "../components/Index.vue"
     import {useRoute} from "vue-router"
-    import { ref, computed } from "vue"
-    import quizs from "../data/quiz.json"
+    import {ref, computed, watch} from "vue"
+    import useFetch from "../hooks/useFetch";
 
     const route = useRoute()
-    const quizId = parseInt(route.params.id)
-    const quiz = quizs.find(q => q.id === quizId)
+    const quizId = parseInt(route.params.id);
+    const {data, loading, error} = useFetch(`/api/themes/${quizId}`)
+    watch(data, (newData) => {
+        console.log("Données reçues :", newData);
+    });
     const currentQuestionIndex = ref(0)
     const numberOfCorrectAnswers = ref(0)
     const answerMessage = ref('')
     const showResults = ref(false)
-    // const questionStatus = ref(`${currentQuestionIndex.value}/${quiz.questions.length}`)
-    // watch(()=> currentQuestionIndex.value, () => {
-    //     questionStatus.value = `${currentQuestionIndex.value}/${quiz.questions.length}`
-    // })
-    const questionStatus = computed(()=> `${currentQuestionIndex.value}/${quiz.questions.length}`)
-    const barPercentage = computed(()=> `${currentQuestionIndex.value/quiz.questions.length * 100}%`)
+    const quizQuestionLength = computed(() => data.value.questions.length)
+    const currentQuestion = computed(() => data.value?.questions?.[currentQuestionIndex.value])
+    const questionStatus = computed(()=> `${currentQuestionIndex.value}/${data.value.questions.length}`)
+    const barPercentage = computed(()=> `${currentQuestionIndex.value/data.value.questions.length * 100}%`)
     const onOptionSelected = (isCorrect) => {
-        console.log("emitted event", isCorrect)
         if(isCorrect) {
             numberOfCorrectAnswers.value++;
             answerMessage.value = "Bonne réponse ! 🎉"
         } else {
             answerMessage.value = "Mauvaise réponse"
         }
-        if(quiz.questions.length - 1 === currentQuestionIndex.value) {
+        if(data.value.questions.length - 1 === currentQuestionIndex.value) {
             showResults.value = true
         }
-        console.log("n", numberOfCorrectAnswers)
         currentQuestionIndex.value++
-        console.log("n2", currentQuestionIndex)
     }
-    console.log(quiz.questions, 'oui');
+    // console.log(data.value.questions, 'oui');
     const answersTrue = computed(()=> 
-        quiz.questions.map(question => {
+        data.value?.questions?.map(question => {
             const correctOption = question.options.find(option => option.isCorrect === true)
             return correctOption.text;
         })
     )
-    console.log('Réponses correctes:', answersTrue.value);
 </script>
 
 <template>
@@ -53,18 +50,27 @@
             :questionStatus="questionStatus" 
             :barPercentage="barPercentage"
         />
-        <div>
+        <div v-if="loading" class="loading">
+            Chargement du Quizz
+        </div>
+        <div v-else-if="error" class="error">
+            Une erreur est survenue : {{ error }}
+        </div>
+        <div v-else>
             <Question
-                v-if="!showResults"
-                :question="quiz.questions[currentQuestionIndex]"
+                v-if="!showResults && currentQuestion"
+                :question="currentQuestion"
                 @selectOption="onOptionSelected"
             />
             <Result 
                 v-else 
-                :quizQuestionLength="quiz.questions.length"
+                :quizQuestionLength="quizQuestionLength"
                 :numberOfCorrectAnswers="numberOfCorrectAnswers"
             />
-            <Index v-if="!showResults" :question="quiz.questions[currentQuestionIndex]"/>
+            <Index 
+                v-if="!showResults && currentQuestion" 
+                :question="currentQuestion"
+            />
             <Answer :message="answerMessage"/>
             <Answers 
                 v-if="showResults"

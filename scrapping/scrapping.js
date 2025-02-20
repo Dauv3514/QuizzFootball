@@ -14,8 +14,6 @@ async function scrapeQuotes() {
     return gentil;
   });
 
-  console.log(football);
-
   await browser.close();
 }
 

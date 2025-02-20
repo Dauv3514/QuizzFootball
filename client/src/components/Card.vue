@@ -2,22 +2,21 @@
     import {defineProps} from "vue"
     import {useRouter} from "vue-router"
 
-    const {quiz} = defineProps(['quiz'])
+    const {data} = defineProps(['data'])
     const router = useRouter()
 
     const navigateToQuiz = () => {
-        router.push(`/quiz/${quiz.id}`)
+        router.push(`/quiz/${data.id}`)
     }
 
-    console.log(quiz, 'rere');
 </script>
 
 <template>
     <div class="card" @click="navigateToQuiz">
-      <img :src="quiz.img" alt="">
+      <img :src="data.image" alt="">
       <div class="card-text">
-        <h2>{{ quiz.name }}</h2>
-        <p>{{ quiz.questions.length }} questions</p>
+        <h2>{{ data.name }}</h2>
+        <p>{{ data.questions.length }} questions</p>
       </div>
     </div>
 </template>

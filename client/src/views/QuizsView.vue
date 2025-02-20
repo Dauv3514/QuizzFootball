@@ -1,28 +1,35 @@
 <script setup>
-  import q from "../data/quiz.json"
   import {ref, watch} from "vue"
   import Card from "../components/Card.vue"
   import useFetch from "../hooks/useFetch";
 
-  const quiz = ref(q)
   const search = ref("")
   const {data, loading, error} = useFetch(`/api/themes`)
-  console.log(data, 'cestbon');
+  const filteredData = ref([])
 
-  watch(search, () => {
-    console.log("Hello from watch", search);
-    quiz.value = q.filter(quiz => quiz.name.toLowerCase().includes(search.value.toLowerCase()))
+  watch([data, search], () => {
+    if (data.value) {
+      filteredData.value = data.value.filter(theme => 
+        theme.name.toLowerCase().includes(search.value.toLowerCase())
+      )
+    }
   })
 </script>
 
 <template>
   <div>
     <header>
-      <h1>Quizz</h1>
+      <h1>Quizz Football</h1>
       <input v-model.trim="search" type="text" placeholder="Recherchez...">
     </header>
-  <div class="options-container">
-    <Card v-for="item in quiz" :key="item.id" :quiz="item"/>
+  <div v-if="loading" class="loading">
+    Chargement des quizz
+  </div>
+  <div v-else-if="error" class="error">
+    Une erreur est survenue : {{ error }}
+  </div>
+  <div v-else class="options-container">
+    <Card v-for="item in filteredData" :key="item.id" :data="item"/>
   </div>
   </div>
 </template>

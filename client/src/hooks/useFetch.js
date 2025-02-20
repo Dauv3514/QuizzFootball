@@ -10,8 +10,7 @@ export default function useFetch(url) {
         loading.value = true
         error.value = null
         try {
-            const baseURL = 'http://localhost:8800'
-            const res = await axios.get(`${baseURL}${url}`)
+            const res = await axios.get(url)
             data.value = res.data
             console.log('Données reçues:', res.data)
         } catch(err) {
