@@ -13,15 +13,18 @@ const connect = async () => {
     try {
         await client.connect();
         const app = express();
+        
+        app.use(cors());
+        app.use(cookieParser());
+        app.use(express.json());
+
+        app.use("/api/auth", authRoute);
+        app.use("/api/themes", themesRoute);
+        app.use("/api/results", resultsRoute);
+
         app.listen(8800, () => {
             console.log('Backend server est lancé!');
         });
-        app.use(express.json());
-        app.use(cors());
-        app.use(cookieParser());
-        app.use("/api/themes", themesRoute);
-        app.use("/api/auth", authRoute);
-        app.use("/api/results", resultsRoute);
         console.log("Connecté à la base de données :", client.database);
     } catch (err) {
         console.error('Erreur de connexion à la base de données:', err);

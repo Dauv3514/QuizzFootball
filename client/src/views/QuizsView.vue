@@ -1,11 +1,13 @@
 <script setup>
   import {ref, watch} from "vue"
   import Card from "../components/Card.vue"
+  import Logout from "../components/Logout.vue"
   import useFetch from "../hooks/useFetch";
 
   const search = ref("")
   const {data, loading, error} = useFetch(`/api/themes`)
   const filteredData = ref([])
+  const userConnected = ref(localStorage.getItem('user'))
 
   watch([data, search], () => {
     if (data.value) {
@@ -14,6 +16,12 @@
       )
     }
   })
+
+  const handleLogout = () => {
+    userConnected.value = null
+  }
+
+ 
 </script>
 
 <template>
@@ -22,9 +30,12 @@
       <h1>Quizz Football</h1>
       <input v-model.trim="search" type="text" placeholder="Recherchez...">
       <div class="authentification">
+        <template v-if="!userConnected">
             <router-link to="/inscription">S'inscrire</router-link>
             <router-link to="/connexion">Se connecter</router-link>
-        </div>
+        </template>
+        <Logout v-else @logout="handleLogout" />
+      </div>
     </header>
   <div v-if="loading" class="loading">
     Chargement des quizz

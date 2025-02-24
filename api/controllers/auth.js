@@ -24,6 +24,13 @@ export const registerUser = (req, res) => {
     })
 }
 
+const cookieOptions = {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict",
+    path: '/'
+};
+
 export const loginUser = (req, res) => {
     const {username, password} = req.body;
     const query = `
@@ -47,9 +54,8 @@ export const loginUser = (req, res) => {
             email: user.email
         }, process.env.JWT_SECRET);
 
-        res.cookie('access_token', token, {
-            httpOnly: true,
-        }).status(200).json({
+        res.cookie('access_token', token, cookieOptions)
+        .status(200).json({
             success: true,
             message: "Connexion réussie",
             user: {
@@ -58,5 +64,13 @@ export const loginUser = (req, res) => {
                 email: user.email
             }
         });
+    })
+}
+
+export const logoutUser = (req, res) => {
+    res.clearCookie('access_token', cookieOptions)
+    .status(200).json({
+        success: true,
+        message: "Déconnexion réussie"
     })
 }

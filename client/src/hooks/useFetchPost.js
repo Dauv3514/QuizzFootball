@@ -10,7 +10,9 @@ export default function useFetch(url) {
         loading.value = true
         error.value = null
         try {
-            const res = await axios.post(url, payload)
+            const res = await axios.post(url, payload, {
+                withCredentials: true
+            })
             data.value = res.data
             console.log('Données envoyées:', res.data)
         } catch(err) {

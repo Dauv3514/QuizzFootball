@@ -18,20 +18,12 @@
     });
     const currentQuestionIndex = ref(0)
     const numberOfCorrectAnswers = ref(0)
-    const errorMessage = ref('')
     const answerMessage = ref('')
     const showResults = ref(false)
     const quizQuestionLength = computed(() => data.value.questions.length)
     const currentQuestion = computed(() => data.value?.questions?.[currentQuestionIndex.value])
     const questionStatus = computed(()=> `${currentQuestionIndex.value}/${data.value.questions.length}`)
     const barPercentage = computed(()=> `${currentQuestionIndex.value/data.value.questions.length * 100}%`)
-    const getUserId = () => {
-        const user = localStorage.getItem('user')
-        if(!user) {
-            errorMessage.value= "utilisateur non connecté"
-        }
-        return JSON.parse(user).id
-    }
     const onOptionSelected = async ({isCorrect, isLastQuestion}) => {
         if(isCorrect) {
             numberOfCorrectAnswers.value++;
@@ -45,12 +37,9 @@
         currentQuestionIndex.value++
         if(isLastQuestion) {
             try {
-                const userId = getUserId()
-                console.log(userId, 'dddd');
-                const {postData} = useFetchPost(`/api/results/${userId}`)
+                const {postData} = useFetchPost(`/api/results/themes/${quizId}`)
                 const payload = {
                     score: numberOfCorrectAnswers.value,
-                    theme_id: quizId,
                     totalquestions: quizQuestionLength.value
                 }
                 await postData(payload)
