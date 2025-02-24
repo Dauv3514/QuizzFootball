@@ -25,12 +25,12 @@
     .bar {
         width: 300px;
         height: 50px;
-        border: 3px solid rgb(39, 192, 212);
+        border: 3px solid #003e66;
     }
 
     .completion {
         height: 100%;
         width: 0%;
-        background-color: rgb(39, 192, 212);
+        background-color: #003e66;
     }
 </style>

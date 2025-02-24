@@ -1,10 +1,10 @@
 <script setup>
     import {defineProps, defineEmits} from "vue"
-    const {question} = defineProps(['question'])
-    console.log(question, 'ok');
+    const { question, currentQuestionIndex, quizQuestionLength } = defineProps(['question', 'currentQuestionIndex', 'quizQuestionLength'])
     const emit = defineEmits(["selectOption"])
     const emitSelectedOption = (isCorrect) => {
-        emit("selectOption", isCorrect)
+        const isLastQuestion = currentQuestionIndex === quizQuestionLength - 1;
+        emit("selectOption", { isCorrect, isLastQuestion });
     }
 </script>
 
@@ -46,13 +46,14 @@
     }
 
     .option-label {
-        background-color: rgb(39, 192, 212);
+        background-color: #003e66;
         width: 50px;
         height: 50px;
         font-size: 30px;
         display: flex;
         align-items: center;
         justify-content: center;
+        color: white;
     }
 
     .option-value {

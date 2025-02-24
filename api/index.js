@@ -4,6 +4,7 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import themesRoute from "./routes/themes.js";
 import authRoute from "./routes/auth.js";
+import resultsRoute from "./routes/results.js";
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -19,7 +20,8 @@ const connect = async () => {
         app.use(cors());
         app.use(cookieParser());
         app.use("/api/themes", themesRoute);
-        app.use("/api/auth", authRoute); // Assurez-vous que cette ligne est présente
+        app.use("/api/auth", authRoute);
+        app.use("/api/results", resultsRoute);
         console.log("Connecté à la base de données :", client.database);
     } catch (err) {
         console.error('Erreur de connexion à la base de données:', err);

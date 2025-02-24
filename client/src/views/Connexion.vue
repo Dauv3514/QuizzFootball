@@ -16,6 +16,7 @@
     }
     await postData(payload)
     if (data.value.success) {
+      localStorage.setItem('user', JSON.stringify(data.value.user))
       router.push('/')
     }
   }
@@ -77,7 +78,7 @@
 
   .form h1 {
     margin: 0 0 30px;
-    color: rgb(39, 192, 212);
+    color: #003e66;
     font-size: 24px;
     font-weight: 500;
   }
@@ -97,7 +98,7 @@
   .form button {
     text-transform: uppercase;
     outline: 0;
-    background: rgb(39, 192, 212);
+    background: #003e66;
     width: 100%;
     border: 0;
     padding: 15px;
@@ -110,7 +111,7 @@
   }
 
   .form button:hover {
-    background: rgb(39, 192, 212);
+    background: #003e66;
   }
 
   .form button:disabled {
@@ -125,13 +126,13 @@
   }
 
   .form .message a {
-    color: rgb(39, 192, 212);
+    color: #003e66;
     text-decoration: none;
     font-weight: 600;
   }
 
   .error-message {
-    color: #ff4444;
+    color: #003e66;
     margin-bottom: 20px;
     font-size: 14px;
     background: #ffebee;

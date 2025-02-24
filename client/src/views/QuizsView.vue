@@ -21,6 +21,10 @@
     <header>
       <h1>Quizz Football</h1>
       <input v-model.trim="search" type="text" placeholder="Recherchez...">
+      <div class="authentification">
+            <router-link to="/inscription">S'inscrire</router-link>
+            <router-link to="/connexion">Se connecter</router-link>
+        </div>
     </header>
   <div v-if="loading" class="loading">
     Chargement des quizz
@@ -43,7 +47,7 @@
   }
   header h1 {
     font-weight: bold;
-    margin-right:30px;
+    margin-right: 30px;
   }
   header input {
     border: none;
@@ -56,5 +60,20 @@
     display: flex;
     flex-wrap: wrap;
     margin-top: 40px;
+  }
+
+  .authentification {
+    margin-left: auto;
+    color: #b3b3b3;
+    font-size: 12px;
+    display: flex;
+    justify-content: center;
+    gap: 26px;
+  }
+
+  .authentification a {
+    color: #003e66;
+    text-decoration: none;
+    font-weight: 600;
   }
 </style>

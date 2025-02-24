@@ -8,6 +8,7 @@
     import {useRoute} from "vue-router"
     import {ref, computed, watch} from "vue"
     import useFetch from "../hooks/useFetch";
+    import useFetchPost from "../hooks/useFetchPost";
 
     const route = useRoute()
     const quizId = parseInt(route.params.id);
@@ -17,13 +18,21 @@
     });
     const currentQuestionIndex = ref(0)
     const numberOfCorrectAnswers = ref(0)
+    const errorMessage = ref('')
     const answerMessage = ref('')
     const showResults = ref(false)
     const quizQuestionLength = computed(() => data.value.questions.length)
     const currentQuestion = computed(() => data.value?.questions?.[currentQuestionIndex.value])
     const questionStatus = computed(()=> `${currentQuestionIndex.value}/${data.value.questions.length}`)
     const barPercentage = computed(()=> `${currentQuestionIndex.value/data.value.questions.length * 100}%`)
-    const onOptionSelected = (isCorrect) => {
+    const getUserId = () => {
+        const user = localStorage.getItem('user')
+        if(!user) {
+            errorMessage.value= "utilisateur non connecté"
+        }
+        return JSON.parse(user).id
+    }
+    const onOptionSelected = async ({isCorrect, isLastQuestion}) => {
         if(isCorrect) {
             numberOfCorrectAnswers.value++;
             answerMessage.value = "Bonne réponse ! 🎉"
@@ -34,8 +43,23 @@
             showResults.value = true
         }
         currentQuestionIndex.value++
+        if(isLastQuestion) {
+            try {
+                const userId = getUserId()
+                console.log(userId, 'dddd');
+                const {postData} = useFetchPost(`/api/results/${userId}`)
+                const payload = {
+                    score: numberOfCorrectAnswers.value,
+                    theme_id: quizId,
+                    totalquestions: quizQuestionLength.value
+                }
+                await postData(payload)
+
+            } catch (error) {
+                console.error('Erreur lors de l\'enregistrement du score:', error)
+            }
+        }
     }
-    // console.log(data.value.questions, 'oui');
     const answersTrue = computed(()=> 
         data.value?.questions?.map(question => {
             const correctOption = question.options.find(option => option.isCorrect === true)
@@ -61,6 +85,8 @@
                 v-if="!showResults && currentQuestion"
                 :question="currentQuestion"
                 @selectOption="onOptionSelected"
+                :currentQuestionIndex="currentQuestionIndex"
+                :quizQuestionLength="quizQuestionLength"
             />
             <Result 
                 v-else 
