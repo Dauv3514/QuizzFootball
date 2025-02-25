@@ -3,11 +3,13 @@
   import Card from "../components/Card.vue"
   import Logout from "../components/Logout.vue"
   import useFetch from "../hooks/useFetch";
+  import { useAuthStore } from '../stores/auth'
 
   const search = ref("")
   const {data: themes, loading, error} = useFetch(`/api/themes`)
+  console.log(themes, 'trerer');
   const filteredData = ref([])
-  const userConnected = ref(localStorage.getItem('user'))
+  const authStore = useAuthStore()
   const filteredThemes = computed(() => 
     filteredData.value.filter(theme => 
       theme.name.toLowerCase().includes(search.value.toLowerCase())
@@ -22,10 +24,12 @@
     if (themes.value) {
       themes.value.forEach(async (theme) => {
         const scoreData = await fetchThemeScore(theme.id)
+        console.log('Score récupéré:', scoreData.value)
         const updatedTheme = {
           ...theme,
           bestScore: scoreData.value?.bestScore || 0
         }
+        console.log(updatedTheme, 'nnnnn');
         
         const index = filteredData.value.findIndex(t => t.id === theme.id)
         if (index === -1) {
@@ -38,7 +42,7 @@
   },)
 
   const handleLogout = () => {
-    userConnected.value = null
+    authStore.logout()
   }
 
 </script>
@@ -49,7 +53,7 @@
       <h1>Quizz Football</h1>
       <input v-model.trim="search" type="text" placeholder="Recherchez...">
       <div class="authentification">
-        <template v-if="!userConnected">
+        <template v-if="!authStore.isAuthenticated">
             <router-link to="/inscription">S'inscrire</router-link>
             <router-link to="/connexion">Se connecter</router-link>
         </template>

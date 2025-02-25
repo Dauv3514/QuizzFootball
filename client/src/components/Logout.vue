@@ -1,15 +1,17 @@
 <script setup>
     import { useRouter } from 'vue-router';
     import axios from 'axios';
+    import { useAuthStore } from '../stores/auth'
 
     const emit = defineEmits(['logout'])
     const router = useRouter();
+    const authStore = useAuthStore()
 
     const logout = async () => {
         try {
             const response = await axios.post('http://localhost:8800/api/auth/deconnexion')
             if (response.data.success) {
-                localStorage.removeItem('user');
+                authStore.logout()
                 emit('logout')
                 router.push('/');
                 console.log('Déconnexion réussie', response.data.success);

@@ -1,9 +1,12 @@
 <script setup>
     import {defineProps} from "vue"
     import {useRouter} from "vue-router"
+    import { useAuthStore } from '../stores/auth'
 
-    const { data, bestScore } = defineProps(['data', 'bestScore'])
+    const { data } = defineProps(['data', 'bestScore'])
+    console.log(data, 'oui');
     const router = useRouter()
+    const authStore = useAuthStore()
 
     const navigateToQuiz = () => {
         router.push(`/quiz/${data.id}`)
@@ -17,12 +20,14 @@
         <div class="card-text">
             <h2>{{ data.name }}</h2>
             <p class="numberQuestions">{{ data.questions.length }} questions</p>
-            <p v-if="bestScore === data.questions.length" class="best-score">
-                Bravo, tu as réussi le quizz ! 🎉
-            </p>
-            <p v-else>
-                Ton meilleur score : <span>{{ bestScore }}</span> / {{ data.questions.length }}
-            </p>
+            <template v-if="authStore.isAuthenticated">
+                <p v-if="bestScore === data.questions.length" class="best-score">
+                    Bravo, tu as réussi le quizz ! 🎉
+                </p>
+                <p v-else>
+                    Ton meilleur score :  <span>{{ bestScore }}</span> / {{ data.questions.length }}
+                </p>
+            </template>
         </div>
     </div>
 </template>

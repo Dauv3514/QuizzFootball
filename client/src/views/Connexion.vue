@@ -2,10 +2,12 @@
   import { ref } from 'vue'
   import useFetchPost from "../hooks/useFetchPost";
   import { useRouter } from 'vue-router'
+  import { useAuthStore } from '../stores/auth'
 
   const username = ref('')
   const password = ref('')
   const router = useRouter()
+  const authStore = useAuthStore()
 
   const { postData, error, loading, data } = useFetchPost(`/api/auth/connexion`)
 
@@ -16,7 +18,7 @@
     }
     await postData(payload)
     if (data.value.success) {
-      localStorage.setItem('user', JSON.stringify(data.value.user))
+      authStore.setUser(data.value.user)
       router.push('/')
     }
   }
