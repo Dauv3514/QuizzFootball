@@ -1,27 +1,46 @@
 <script setup>
-  import {ref, watch} from "vue"
+  import {ref, watch, computed} from "vue"
   import Card from "../components/Card.vue"
   import Logout from "../components/Logout.vue"
   import useFetch from "../hooks/useFetch";
 
   const search = ref("")
-  const {data, loading, error} = useFetch(`/api/themes`)
+  const {data: themes, loading, error} = useFetch(`/api/themes`)
   const filteredData = ref([])
   const userConnected = ref(localStorage.getItem('user'))
+  const filteredThemes = computed(() => 
+    filteredData.value.filter(theme => 
+      theme.name.toLowerCase().includes(search.value.toLowerCase())
+    )
+  )
+  const fetchThemeScore = async (themeId) => {
+    const {data} = useFetch(`/api/results/themes/${themeId}/best-score`)
+    return data
+  }
 
-  watch([data, search], () => {
-    if (data.value) {
-      filteredData.value = data.value.filter(theme => 
-        theme.name.toLowerCase().includes(search.value.toLowerCase())
-      )
+  watch(themes, () => {
+    if (themes.value) {
+      themes.value.forEach(async (theme) => {
+        const scoreData = await fetchThemeScore(theme.id)
+        const updatedTheme = {
+          ...theme,
+          bestScore: scoreData.value?.bestScore || 0
+        }
+        
+        const index = filteredData.value.findIndex(t => t.id === theme.id)
+        if (index === -1) {
+          filteredData.value.push(updatedTheme)
+        } else {
+          filteredData.value[index] = updatedTheme
+        }
+      })
     }
-  })
+  },)
 
   const handleLogout = () => {
     userConnected.value = null
   }
 
- 
 </script>
 
 <template>
@@ -44,7 +63,12 @@
     Une erreur est survenue : {{ error }}
   </div>
   <div v-else class="options-container">
-    <Card v-for="item in filteredData" :key="item.id" :data="item"/>
+    <Card 
+      v-for="item in filteredThemes" 
+      :key="item.id" 
+      :data="item"
+      :bestScore="item.bestScore"
+    />
   </div>
   </div>
 </template>

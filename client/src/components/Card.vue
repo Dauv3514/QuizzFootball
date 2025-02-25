@@ -2,7 +2,7 @@
     import {defineProps} from "vue"
     import {useRouter} from "vue-router"
 
-    const {data} = defineProps(['data'])
+    const { data, bestScore } = defineProps(['data', 'bestScore'])
     const router = useRouter()
 
     const navigateToQuiz = () => {
@@ -13,11 +13,17 @@
 
 <template>
     <div class="card" @click="navigateToQuiz">
-      <img :src="data.image" alt="">
-      <div class="card-text">
-        <h2>{{ data.name }}</h2>
-        <p>{{ data.questions.length }} questions</p>
-      </div>
+        <img :src="data.image" alt="">
+        <div class="card-text">
+            <h2>{{ data.name }}</h2>
+            <p class="numberQuestions">{{ data.questions.length }} questions</p>
+            <p v-if="bestScore === data.questions.length" class="best-score">
+                Bravo, tu as réussi le quizz ! 🎉
+            </p>
+            <p v-else>
+                Ton meilleur score : <span>{{ bestScore }}</span> / {{ data.questions.length }}
+            </p>
+        </div>
     </div>
 </template>
 
@@ -38,11 +44,19 @@
         margin: 0;
     }
 
+    .card span {
+        font-weight: bold;
+    }
+
     .card .card-text {
         padding: 0px 5px 6px 5px;
     }
 
     .card .card-text h2 {
         font-weight: bold;
+    }
+
+    .numberQuestions {
+        font-size: 18px;
     }
 </style>
