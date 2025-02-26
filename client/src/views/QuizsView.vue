@@ -8,6 +8,8 @@
   const search = ref("")
   const {data: themes, loading, error} = useFetch(`/api/themes`)
   console.log(themes, 'trerer');
+  const { fetchData: fetchScore } = useFetch()
+
   const filteredData = ref([])
   const authStore = useAuthStore()
   const filteredThemes = computed(() => 
@@ -16,21 +18,18 @@
     )
   )
   const fetchThemeScore = async (themeId) => {
-    const {data} = useFetch(`/api/results/themes/${themeId}/best-score`)
-    return data
+    return await fetchScore(`/api/results/themes/${themeId}/best-score`)
   }
 
   watch(themes, () => {
     if (themes.value) {
       themes.value.forEach(async (theme) => {
         const scoreData = await fetchThemeScore(theme.id)
-        console.log('Score récupéré:', scoreData.value)
+        console.log('Score récupéré:', scoreData)
         const updatedTheme = {
           ...theme,
-          bestScore: scoreData.value?.bestScore || 0
+          bestScore: scoreData?.bestScore || 0
         }
-        console.log(updatedTheme, 'nnnnn');
-        
         const index = filteredData.value.findIndex(t => t.id === theme.id)
         if (index === -1) {
           filteredData.value.push(updatedTheme)

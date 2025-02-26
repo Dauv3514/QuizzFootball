@@ -3,8 +3,9 @@
     import {useRouter} from "vue-router"
     import { useAuthStore } from '../stores/auth'
 
-    const { data } = defineProps(['data', 'bestScore'])
+    const { data, bestScore } = defineProps(['data', 'bestScore'])
     console.log(data, 'oui');
+    console.log(bestScore, 'oui2');
     const router = useRouter()
     const authStore = useAuthStore()
 

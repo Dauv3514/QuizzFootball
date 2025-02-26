@@ -1,4 +1,4 @@
-import { ref, watchEffect } from 'vue'
+import { ref } from 'vue'
 import axios from 'axios'
 
 export default function useFetch(url) {
@@ -6,28 +6,26 @@ export default function useFetch(url) {
     const loading = ref(false)
     const error = ref(null)
 
-    const fetchData = async () => {
+    const fetchData = async (customUrl = url) => {
         loading.value = true
         error.value = null
         try {
-            const res = await axios.get(url)
+            const res = await axios.get(customUrl, {
+                withCredentials: true
+            })
             data.value = res.data
-            console.log('Données reçues:', res.data)
+            return res.data
         } catch(err) {
-            console.error('Erreur fetch:', err)
             error.value = err.message
+            console.error('Erreur fetch:', err)
         } finally {
             loading.value = false
         }
     }
 
-    const reFetch = () => {
+    if (url) {
         fetchData()
     }
 
-    watchEffect(() => {
-        if(url) fetchData()
-    })
-
-    return { data, loading, error, reFetch }
+    return { data, loading, error, fetchData }
 }

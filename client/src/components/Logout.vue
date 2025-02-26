@@ -1,6 +1,7 @@
 <script setup>
     import { useRouter } from 'vue-router';
     import axios from 'axios';
+    import useFetchPost from "../hooks/useFetchPost";
     import { useAuthStore } from '../stores/auth'
 
     const emit = defineEmits(['logout'])
@@ -8,16 +9,21 @@
     const authStore = useAuthStore()
 
     const logout = async () => {
-        try {
-            const response = await axios.post('http://localhost:8800/api/auth/deconnexion')
-            if (response.data.success) {
-                authStore.logout()
-                emit('logout')
-                router.push('/');
-                console.log('Déconnexion réussie', response.data.success);
-            }
-        } catch(error) {
-            console.error('Erreur lors de la déconnexion');
+        const { postData, data, error } = useFetchPost(`/api/auth/deconnexion`)
+        
+        await postData({})
+        
+        if (error.value) {
+            console.error('Erreur de déconnexion:', error.value)
+            return
+        }
+        if (data.value?.success) {
+            authStore.logout()
+            emit('logout')
+            router.push('/')
+            console.log('Déconnexion réussie')
+        } else {
+            console.error('Échec de la déconnexion:', data.value)
         }
     }
 
