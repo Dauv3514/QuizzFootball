@@ -27,5 +27,10 @@ export default function useFetch(url) {
         fetchData()
     }
 
-    return { data, loading, error, fetchData }
+    return { 
+        data, 
+        loading, 
+        error, 
+        refetch: fetchData  
+    }
 }

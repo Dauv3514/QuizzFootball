@@ -7,8 +7,7 @@
 
   const search = ref("")
   const {data: themes, loading, error} = useFetch(`/api/themes`)
-  console.log(themes, 'trerer');
-  const { fetchData: fetchScore } = useFetch()
+  const { refetch: fetchScore } = useFetch()
 
   const filteredData = ref([])
   const authStore = useAuthStore()

@@ -23,7 +23,7 @@
 
 <style scoped>
     .answer {
-        margin-top: 50px;
+        margin-top: 10px;
         text-align: center;
     }
 

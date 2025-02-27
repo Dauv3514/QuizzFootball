@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser';
 import themesRoute from "./routes/themes.js";
 import authRoute from "./routes/auth.js";
 import resultsRoute from "./routes/results.js";
+import profilRoute from "./routes/profil.js";
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -21,6 +22,7 @@ const connect = async () => {
         app.use("/api/auth", authRoute);
         app.use("/api/themes", themesRoute);
         app.use("/api/results", resultsRoute);
+        app.use("/api/profil", profilRoute);
 
         app.listen(8800, () => {
             console.log('Backend server est lancé!');

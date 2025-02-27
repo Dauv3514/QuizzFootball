@@ -11,19 +11,22 @@
     import useFetchPost from "../hooks/useFetchPost";
 
     const route = useRoute()
-    const quizId = parseInt(route.params.id);
-    const {data, loading, error} = useFetch(`/api/themes/${quizId}`)
+    const themeId = parseInt(route.params.id);
+    const {data, loading, error} = useFetch(`/api/themes/${themeId}`)
+    const {data: allScoresUser, refetch: refetchScores} = useFetch(`/api/results/themes/${themeId}/scores`)
     watch(data, (newData) => {
         console.log("Données reçues :", newData);
     });
+
     const currentQuestionIndex = ref(0)
     const numberOfCorrectAnswers = ref(0)
     const answerMessage = ref('')
     const showResults = ref(false)
-    const quizQuestionLength = computed(() => data.value.questions.length)
+    const lastQuestion = computed(()=> currentQuestionIndex.value === data.value.questions.length)
+    const quizQuestionLength = computed(() => data.value?.questions?.length)
     const currentQuestion = computed(() => data.value?.questions?.[currentQuestionIndex.value])
-    const questionStatus = computed(()=> `${currentQuestionIndex.value}/${data.value.questions.length}`)
-    const barPercentage = computed(()=> `${currentQuestionIndex.value/data.value.questions.length * 100}%`)
+    const questionStatus = computed(()=> `${currentQuestionIndex.value}/${data.value?.questions?.length}`)
+    const barPercentage = computed(()=> `${currentQuestionIndex.value/data.value?.questions?.length * 100}%`)
     const onOptionSelected = async ({isCorrect, isLastQuestion}) => {
         if(isCorrect) {
             numberOfCorrectAnswers.value++;
@@ -37,12 +40,13 @@
         currentQuestionIndex.value++
         if(isLastQuestion) {
             try {
-                const {postData} = useFetchPost(`/api/results/themes/${quizId}`)
+                const {postData} = useFetchPost(`/api/results/themes/${themeId}`)
                 const payload = {
                     score: numberOfCorrectAnswers.value,
                     totalquestions: quizQuestionLength.value
                 }
                 await postData(payload)
+                await refetchScores()
 
             } catch (error) {
                 console.error('Erreur lors de l\'enregistrement du score:', error)
@@ -62,6 +66,7 @@
         <QuizHeader 
             :questionStatus="questionStatus" 
             :barPercentage="barPercentage"
+            :lastQuestion="lastQuestion"
         />
         <div v-if="loading" class="loading">
             Chargement du Quizz
@@ -81,6 +86,7 @@
                 v-else 
                 :quizQuestionLength="quizQuestionLength"
                 :numberOfCorrectAnswers="numberOfCorrectAnswers"
+                :scores="allScoresUser.scores || []"
             />
             <Index 
                 v-if="!showResults && currentQuestion" 
