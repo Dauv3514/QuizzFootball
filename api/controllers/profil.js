@@ -77,7 +77,35 @@ export const updateUserProfil = (req, res) => {
     })
 }
 
-export const statsUser = (req, res) => {
+export const getStatsUser = (req, res) => {
+    const userId = req.user.id;
+    if(!userId) {
+        return res.status(401).json({
+            success: false,
+            message: 'Utilisateur non authentifié'
+        })
+    }
+    const query = `
+        SELECT DISTINCT score, totalquestions, theme_id, name, image
+        FROM results
+        LEFT JOIN users
+        ON results.user_id = users.id
+        LEFT JOIN themes
+        ON results.theme_id = themes.id
+        WHERE user_id = $1 AND score = totalquestions
+    `
+    client.query(query, [userId], (err, data) => {
+        if (err) {
+            console.error("Erreur SQL:", err);
+            return res.status(500).json({
+                success: false,
+                message: "Erreur lors de la récupération des stats du User"
+            });
+        }
+        return res.status(200).json({
+            statsUser: data.rows
+        })
+    });
 }
 
 export const statsOthersUsers = (req, res) => {

@@ -3,10 +3,11 @@
   import {ref, computed} from "vue"
   import EditProfil from "../components/EditProfil.vue"
 
-  const { data, loading, error } = useFetch(`/api/profil/getUserProfil`);
+  const {data} = useFetch(`/api/profil/getUserProfil`);
+  const {data: statsUser} = useFetch(`/api/profil/statsUser`)
 
-  const isModalOpen = ref(false);
   const userData = computed(() => data.value);
+  const statsUserData = computed(() => statsUser.value.statsUser || []);
 
   const editProfil = () => {
     console.log('edit profile');
@@ -17,6 +18,10 @@
     isModalOpen.value = false;
   }
 
+  const updateUserData = (updatedUser) => {
+      userData.value.user.username = updatedUser.username;
+      userData.value.user.email = updatedUser.email;
+  }
 </script>
 
 <template>
@@ -32,7 +37,21 @@
         :isModalOpen="isModalOpen"
         :userData="userData"
         @close="closeModal"
+        @updateUserData="updateUserData"
       />
+    </div>
+    <div class="statsUser">
+      <h3>Bravo tu as terminé {{ statsUserData.length }} quiz ! 🎉🎉</h3>
+      <template v-if="statsUserData">
+        <div v-for="statsUser in statsUserData" :key="statsUser" class="totalStatsUser">
+          <div class="resultsUser">
+            <p>{{ statsUser.name }}</p>
+            <p>{{ statsUser.score }} / {{ statsUser.totalquestions }}</p>
+          </div>
+          <img :src="statsUser.image" alt="">
+        </div>
+      </template>
+      <p v-else>Tu n'as pas encore terminé de Quiz</p>
     </div>
   </div>
 </template>
@@ -67,5 +86,28 @@
         background-color: #333;
         transform: scale(1.05);
         box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+
+    .statsUser {
+      margin-top: 40px;
+    }
+
+    h3 {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+      font-weight: bold;
+    }
+
+    .resultsUser {
+      display: flex;
+      justify-content: center;
+      gap: 5px;
+    }
+
+    .totalStatsUser img {
+      width: 100%;
+      height: 180px;
+      margin: 0;
     }
 </style>
