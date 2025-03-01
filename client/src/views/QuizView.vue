@@ -13,6 +13,7 @@
     const route = useRoute()
     const themeId = parseInt(route.params.id);
     const {data, loading, error} = useFetch(`/api/themes/${themeId}`)
+    console.log(data, 'lesdatas');
     const {data: allScoresUser, refetch: refetchScores} = useFetch(`/api/results/themes/${themeId}/scores`)
     watch(data, (newData) => {
         console.log("Données reçues :", newData);

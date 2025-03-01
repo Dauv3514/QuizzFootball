@@ -1,7 +1,7 @@
 <script setup>
     import {defineProps} from "vue"
     import {useRouter} from "vue-router"
-    import { useAuthStore } from '../stores/auth'
+    import {useAuthStore} from '../stores/auth'
 
     const { data, bestScore } = defineProps(['data', 'bestScore'])
     console.log(data, 'oui');
