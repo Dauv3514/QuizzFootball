@@ -7,6 +7,5 @@ const router = express.Router();
 router.get("/getUserProfil", verifyToken, getUserProfil);
 router.put("/updateUserProfil", verifyToken, updateUserProfil);
 router.get("/statsUser", verifyToken, getStatsUser);
-router.get("/statsOthersUsers", statsOthersUsers);
 
 export default router;

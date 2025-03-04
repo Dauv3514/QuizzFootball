@@ -13,7 +13,6 @@
     const route = useRoute()
     const themeId = parseInt(route.params.id);
     const {data, loading, error} = useFetch(`/api/themes/${themeId}`)
-    console.log(data, 'lesdatas');
     const {data: allScoresUser, refetch: refetchScores} = useFetch(`/api/results/themes/${themeId}/scores`)
     watch(data, (newData) => {
         console.log("Données reçues :", newData);
@@ -23,12 +22,15 @@
     const numberOfCorrectAnswers = ref(0)
     const answerMessage = ref('')
     const showResults = ref(false)
+    const userAnswers = ref([])
     const lastQuestion = computed(()=> currentQuestionIndex.value === data.value.questions.length)
     const quizQuestionLength = computed(() => data.value?.questions?.length)
     const currentQuestion = computed(() => data.value?.questions?.[currentQuestionIndex.value])
     const questionStatus = computed(()=> `${currentQuestionIndex.value}/${data.value?.questions?.length}`)
     const barPercentage = computed(()=> `${currentQuestionIndex.value/data.value?.questions?.length * 100}%`)
-    const onOptionSelected = async ({isCorrect, isLastQuestion}) => {
+    const onOptionSelected = async ({text, isCorrect, isLastQuestion}) => {
+        userAnswers.value.push(text);
+        
         if(isCorrect) {
             numberOfCorrectAnswers.value++;
             answerMessage.value = "Bonne réponse ! 🎉"
@@ -44,7 +46,8 @@
                 const {postData} = useFetchPost(`/api/results/themes/${themeId}`)
                 const payload = {
                     score: numberOfCorrectAnswers.value,
-                    totalquestions: quizQuestionLength.value
+                    totalquestions: quizQuestionLength.value,
+                    userAnswers: userAnswers.value
                 }
                 await postData(payload)
                 await refetchScores()
@@ -97,6 +100,7 @@
             <Answers 
                 v-if="showResults"
                 :answersTrue="answersTrue"
+                :userAnswers="userAnswers"
             />
         </div>
     </div>

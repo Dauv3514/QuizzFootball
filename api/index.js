@@ -7,6 +7,7 @@ import authRoute from "./routes/auth.js";
 import resultsRoute from "./routes/results.js";
 import profilRoute from "./routes/profil.js";
 import dotenv from 'dotenv';
+import { verifyToken } from "../api/middlewares/auth.js";
 
 dotenv.config();
 
@@ -22,7 +23,7 @@ const connect = async () => {
         app.use("/api/auth", authRoute);
         app.use("/api/themes", themesRoute);
         app.use("/api/results", resultsRoute);
-        app.use("/api/profil", profilRoute);
+        app.use("/api/profil", verifyToken, profilRoute);
 
         app.listen(8800, () => {
             console.log('Backend server est lancé!');

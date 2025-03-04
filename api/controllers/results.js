@@ -90,3 +90,33 @@ export const getAllScoresUser = (req, res) => {
         });
     });
 }
+
+export const getAllScoresUsers = (req, res) => {
+
+    const query = `
+        SELECT DISTINCT ON (r.user_id, r.theme_id)
+            r.score, 
+            r.created_at, 
+            r.totalquestions, 
+            r.theme_id,
+            u.username
+        FROM results r
+        JOIN users u ON r.user_id = u.id
+        WHERE r.score = r.totalquestions
+        ORDER BY r.user_id, r.theme_id, r.created_at DESC;
+    `;
+
+    client.query(query, (err, data) => {
+        if(err) {
+            console.error('Erreur SQL:', err);
+            return res.status(500).json({
+                success: false,
+                message: "Erreur lors de la récupération des scores",
+                error: err
+            });
+        }
+        return res.status(200).json({
+            scores: data.rows
+        });
+    });
+}

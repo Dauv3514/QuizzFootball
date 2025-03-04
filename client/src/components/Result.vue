@@ -1,7 +1,7 @@
 <script setup>
     import {defineProps} from "vue"
     const {quizQuestionLength, numberOfCorrectAnswers, scores} = defineProps(["quizQuestionLength", "numberOfCorrectAnswers", "scores"])
-    console.log(scores,'fff');
+    
     const formatDate = (date) => {
         return new Date(date).toLocaleDateString('fr-FR', {
             year: 'numeric',

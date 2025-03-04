@@ -24,7 +24,6 @@
     if (themes.value) {
       themes.value.forEach(async (theme) => {
         const scoreData = await fetchThemeScore(theme.id)
-        console.log('Score récupéré:', scoreData)
         const updatedTheme = {
           ...theme,
           bestScore: scoreData?.bestScore || 0

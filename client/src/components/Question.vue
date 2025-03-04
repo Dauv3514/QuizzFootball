@@ -2,9 +2,9 @@
     import {defineProps, defineEmits} from "vue"
     const { question, currentQuestionIndex, quizQuestionLength } = defineProps(['question', 'currentQuestionIndex', 'quizQuestionLength'])
     const emit = defineEmits(["selectOption"])
-    const emitSelectedOption = (isCorrect) => {
+    const emitSelectedOption = (isCorrect, text) => {
         const isLastQuestion = currentQuestionIndex === quizQuestionLength - 1;
-        emit("selectOption", { isCorrect, isLastQuestion });
+        emit("selectOption", { isCorrect, isLastQuestion, text });
     }
 </script>
 
@@ -16,10 +16,10 @@
     </div>
     <div class="options-container">
         <div 
-            v-for="option in question.options" 
+            v-for="option in question.options"
             :key="option.id" 
             class="option"
-            @click="emitSelectedOption(option.isCorrect)"
+            @click="emitSelectedOption(option.isCorrect, option.text)"
         >
             <p class="option-label">{{ option.label }}</p>
             <div class="option-value">
