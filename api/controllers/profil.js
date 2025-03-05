@@ -10,7 +10,7 @@ export const getUserProfil = (req, res) => {
         });
     }
     const query = `
-        SELECT username, email, created_at
+        SELECT username, email, created_at, profile_image
         FROM users
         WHERE id = $1
     `;
@@ -39,10 +39,10 @@ export const updateUserProfil = (req, res) => {
     }
     const salt = bcrypt.genSaltSync(10);
     const hashedPassword = bcrypt.hashSync(updateUser.password, salt);
-    if (!updateUser.username || !updateUser.email || !updateUser.password) {
+    if (!updateUser.username || !updateUser.email || !updateUser.password || !updateUser.profile_image) {
         return res.status(400).json({
             success: false,
-            message: "Tous les champs (username, email, password) sont requis"
+            message: "Tous les champs (username, email, password, photo de profil) sont requis"
         });
     }
     const updatedAt = new Date().toISOString();
@@ -51,14 +51,15 @@ export const updateUserProfil = (req, res) => {
         updateUser.email, 
         hashedPassword,
         updatedAt,
+        updateUser.profile_image, 
         userId
     ];
 
     const Query= `
         UPDATE users
-        SET username = $1, email = $2, password = $3, updated_at = $4
-        WHERE id = $5
-        RETURNING username, email, password, updated_at
+        SET username = $1, email = $2, password = $3, updated_at = $4, profile_image = $5
+        WHERE id = $6
+        RETURNING username, email, password, updated_at, profile_image
     `;
 
     client.query(Query, values, (err, data) => {

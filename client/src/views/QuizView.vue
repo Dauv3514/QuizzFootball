@@ -28,6 +28,15 @@
     const currentQuestion = computed(() => data.value?.questions?.[currentQuestionIndex.value])
     const questionStatus = computed(()=> `${currentQuestionIndex.value}/${data.value?.questions?.length}`)
     const barPercentage = computed(()=> `${currentQuestionIndex.value/data.value?.questions?.length * 100}%`)
+    
+    const resetQuiz = () => {
+        currentQuestionIndex.value = 0
+        numberOfCorrectAnswers.value = 0
+        userAnswers.value = []
+        showResults.value = false
+    }
+    
+    
     const onOptionSelected = async ({text, isCorrect, isLastQuestion}) => {
         userAnswers.value.push(text);
         
@@ -38,7 +47,7 @@
             answerMessage.value = "Mauvaise réponse"
         }
         if(data.value.questions.length - 1 === currentQuestionIndex.value) {
-            showResults.value = true
+            showResults.value = truex
         }
         currentQuestionIndex.value++
         if(isLastQuestion) {
@@ -91,6 +100,7 @@
                 :quizQuestionLength="quizQuestionLength"
                 :numberOfCorrectAnswers="numberOfCorrectAnswers"
                 :scores="allScoresUser.scores || []"
+                @reset="resetQuiz"
             />
             <Index 
                 v-if="!showResults && currentQuestion" 

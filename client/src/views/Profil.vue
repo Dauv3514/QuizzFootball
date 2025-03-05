@@ -11,11 +11,16 @@
   const themeId = route.params.themeId;
   const authStore = useAuthStore()
 
-  const {data} = useFetch(`/api/profil/getUserProfil`);
   const {data: statsUser} = useFetch(`/api/profil/statsUser`)
   const {data: statsUsers} = useFetch(`/api/results/themes/${themeId}/scoresUsers`)
-
-  const userData = computed(() => data.value);
+  const {data: getUserProfil} = useFetch(`/api/profil/getUserProfil`);
+ 
+  const profileImage = computed(() => {
+    return getUserProfil.value && getUserProfil.value.user 
+    ? `/api/uploads/${getUserProfil.value.user.profile_image}` 
+    : null;
+  })
+  const userData = computed(() => getUserProfil.value);
   const statsUserData = computed(() => statsUser.value?.statsUser || []);
   const statsUsersData = computed(() => statsUsers.value?.scores || []);
   const currentUser = computed(() => authStore.user.username);
@@ -34,6 +39,13 @@
         }
       }
     });
+
+    if (!usersStats[currentUser.value]) {
+      usersStats[currentUser.value] = {
+        username: currentUser.value,
+        completedQuizzes: 0,
+      };
+    }
 
     return Object.values(usersStats)
       .sort((a,b) => b.completedQuizzes - a.completedQuizzes);
@@ -59,6 +71,12 @@
       <h1>Bienvenue sur ton profil</h1>
       <span>{{ userData?.user?.username }}</span>
       <p>Mail: {{ userData?.user?.email }}</p>
+      <img 
+        v-if="profileImage" 
+        :src="profileImage" 
+        alt="Photo de profil"
+        class="profilImage"
+      />
     </template>
     <button @click="editProfil">Modifier mon profil</button>
     <div v-if="isModalOpen" class="modal">
@@ -71,19 +89,20 @@
     </div>
     <div class="containerGlobal">
       <div class="statsUser">
-        <h3>Bravo tu as terminé {{ statsUserData.length }} quiz ! 🎉🎉</h3>
-        <template v-if="statsUserData">
-          <div v-for="statsUser in statsUserData" :key="statsUser" class="totalStatsUser">
-            <div class="resultsUser">
-              <p>{{ statsUser.name }}</p>
-              <p>{{ statsUser.score }} / {{ statsUser.totalquestions }}</p>
-            </div>
-            <div class="image">
-              <img :src="statsUser.image" alt="image">
-            </div>
-          </div>
-        </template>
-        <p v-else>Tu n'as pas encore terminé de Quizz</p>
+        <h3 v-if="statsUserData.length > 0">Bravo tu as terminé {{ statsUserData.length }} quiz ! 🎉🎉</h3>
+        <template v-if="statsUserData.length > 0">
+        <div v-for="statsUser in statsUserData" :key="statsUser.username" class="totalStatsUser">
+        <div class="resultsUser">
+          <p>{{ statsUser.name }}</p>
+          <p>{{ statsUser.score }} / {{ statsUser.totalquestions }}</p>
+        </div>
+        <div class="image">
+          <img :src="statsUser.image" alt="image">
+      </div>
+    </div>
+  </template>
+
+  <p v-else>Tu n'as pas encore terminé de Quizz</p>
       </div>
       <div class="statsUsers">
         <h3>Ton classement par rapport aux autres</h3>
@@ -114,7 +133,7 @@
 
 <style scoped>
     .profile-page {
-      padding-top: 100px;
+      padding-top: 50px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -126,8 +145,17 @@
       font-weight: bold;
     }
 
+    .profilImage {
+      margin-top: 5px;
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 2px solid #ddd;
+    }
+
     button {
-        margin-top: 30px;
+        margin-top: 10px;
         background-color: black;
         color: white;
         padding: 10px 10px;

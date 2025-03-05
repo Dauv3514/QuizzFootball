@@ -4,14 +4,16 @@ import client from "../database.js"
 
 export const registerUser = (req, res) => {
     const { username, email, password } = req.body;
+    const profileImage = req.file ? req.file.filename : null;
     const salt = bcrypt.genSaltSync(10);
     const hashedPassword = bcrypt.hashSync(password, salt);
+    
     const query= `
-        INSERT INTO users (username, email, password) 
-        VALUES ($1, $2, $3) 
+        INSERT INTO users (username, email, password, profile_image) 
+        VALUES ($1, $2, $3, $4) 
         RETURNING *
     `;
-    const values = [username, email, hashedPassword];
+    const values = [username, email, hashedPassword, profileImage];
     client.query(query, values, (err, data) => {
         if(err) {
             res.status(500).json({ message: "Erreur lors de l'inscription", err })

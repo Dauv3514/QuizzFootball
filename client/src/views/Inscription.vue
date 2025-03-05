@@ -9,19 +9,41 @@
   const email = ref('')
   const router = useRouter()
   const authStore = useAuthStore()
+  const profileImage = ref(null);
+  const filePreview = ref(null);
 
   const {postData, error, data, loading } = useFetchPost(`/api/auth/inscription`)
 
-  const handleSubmit = async () => {
-    const payload = {
-      username: username.value,
-      password: password.value,
-      email: email.value
+  const handleFileUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      profileImage.value = file;
+      const reader = new FileReader();
+      reader.onload = () => {
+        filePreview.value = reader.result;
+      };
+      reader.readAsDataURL(file);
     }
-    await postData(payload)
-    if (data.value?.success) {
+  };
+  
+  const handleSubmit = async () => {
+    // const payload = {
+    //   username: username.value,
+    //   password: password.value,
+    //   email: email.value
+    // }
+    const formData = new FormData();
+    formData.append("username", username.value);
+    formData.append("email", email.value);
+    formData.append("password", password.value);
+    if (profileImage.value) {
+      formData.append("profileImage", profileImage.value);
+    }
+    await postData(formData);
+      if (data.value?.success) {
+      console.log(data.value.user, 'vc');
       authStore.setUser(data.value.user)
-      router.push('/')
+      router.push('/');
     }
   }
 </script>
@@ -37,6 +59,16 @@
         <input type="text"  autocomplete="text" placeholder="Nom d'utilisateur" v-model="username"/>
         <input type="email"  autocomplete="email" placeholder="Email" v-model="email"/>
         <input type="password"  autocomplete="password" placeholder="Mot de passe" v-model="password"/>
+        <input type="file" id="file-upload" @change="handleFileUpload" accept="image/*" style="display:none" />
+        <p>Choisir une photo de profil</p>
+        <label for="file-upload" class="file-upload-label">
+          <span v-if="fileName" class="file-name">{{ fileName }}</span>
+          <img v-if="!filePreview" 
+              src="https://static.vecteezy.com/ti/vecteur-libre/t1/2318271-icone-de-profil-utilisateur-vectoriel.jpg" 
+              alt="Icône de profil" 
+              class="profile-icon" />
+          <img v-else :src="filePreview" alt="Prévisualisation" class="profile-icon" />
+        </label>
         <button @click.prevent="handleSubmit">S'inscrire</button>
         <p class="message">
           Déjà inscrit ? 
@@ -114,6 +146,38 @@
     color: #003e66;
     text-decoration: none;
     font-weight: 600;
+  }
+
+  .form .file-upload-label {
+    display: inline-block;
+    background-color: white;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 4px;
+    margin: 10px 0;
+    text-align: center;
+    transition: background-color 0.3s ease;
+  }
+
+  .form .file-upload-label:hover {
+    background-color: white;
+  }
+
+  .form .file-upload-label .file-name {
+    display: inline-block;
+    margin-left: 10px;
+    color: #6c757d;
+    font-style: italic;
+  }
+
+  .form p {
+    color: #003e66;
+  }
+
+  .profile-icon {
+    height: 40px;
+    width: 40px;
   }
 
   @media (max-width: 400px) {

@@ -20,6 +20,7 @@ const connect = async () => {
         app.use(cookieParser());
         app.use(express.json());
 
+        app.use("/api/uploads", express.static("uploads"));
         app.use("/api/auth", authRoute);
         app.use("/api/themes", themesRoute);
         app.use("/api/results", resultsRoute);

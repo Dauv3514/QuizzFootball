@@ -1,16 +1,24 @@
 <script setup>
-  import {ref, watch, computed} from "vue"
+  import {ref, watch, computed, onMounted} from "vue"
   import Card from "../components/Card.vue"
   import Logout from "../components/Logout.vue"
   import useFetch from "../hooks/useFetch";
   import { useAuthStore } from '../stores/auth'
 
   const search = ref("")
+  const {data: getUserProfil} = useFetch(`/api/profil/getUserProfil`);
   const {data: themes, loading, error} = useFetch(`/api/themes`)
   const { refetch: fetchScore } = useFetch()
+  console.log(getUserProfil, 'trrr');
 
   const filteredData = ref([])
   const authStore = useAuthStore()
+  const profileImage = computed(() => {
+    return getUserProfil.value && getUserProfil.value.user 
+    ? `/api/uploads/${getUserProfil.value.user.profile_image}` 
+    : null;
+  })
+  console.log(profileImage,'rrf');
   const filteredThemes = computed(() => 
     filteredData.value.filter(theme => 
       theme.name.toLowerCase().includes(search.value.toLowerCase())
@@ -41,7 +49,7 @@
   const handleLogout = () => {
     authStore.logout()
   }
-
+  
 </script>
 
 <template>
@@ -54,7 +62,17 @@
             <router-link to="/inscription">S'inscrire</router-link>
             <router-link to="/connexion">Se connecter</router-link>
         </template>
-        <Logout v-else @logout="handleLogout" />
+        <div v-else>
+        <router-link v-if="profileImage" to="/profil" class="profilPicture">
+          <img
+            v-if="profileImage"
+            :src="profileImage"
+            alt="Photo de profil"
+            class="profilImage"
+          />
+        </router-link>
+        <Logout @logout="handleLogout" />
+      </div>
       </div>
     </header>
   <div v-if="loading" class="loading">
@@ -111,5 +129,19 @@
     color: #003e66;
     text-decoration: none;
     font-weight: 600;
+  }
+
+  .profilPicture {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .profilImage {
+    width: 30px;
+    height: 30px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid #ddd;
   }
 </style>

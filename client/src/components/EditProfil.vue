@@ -1,82 +1,133 @@
 <script setup>
 import useFetchPut from "../hooks/useFetchPut";
-import {reactive, ref, defineEmits, defineProps, watch} from 'vue';
+import useFetch from "../hooks/useFetch";
+import {reactive, ref, defineEmits, defineProps, watch, computed} from 'vue';
 
 const emit = defineEmits();
 const { isModalOpen, userData } = defineProps(['isModalOpen', 'userData']);
+
+const {data: getUserProfil} = useFetch(`/api/profil/getUserProfil`);
+const profileImage = computed(() => {
+    return getUserProfil.value && getUserProfil.value.user 
+    ? `/api/uploads/${getUserProfil.value.user.profile_image}` 
+    : null;
+})
+
+console.log(profileImage,'rrf');
 
 const closeModal = () => {
     emit('close');
 };
 
 const userInfos = reactive({
-    username: "", 
-    email: "", 
-    password: ""
+    username: "",
+    email: "",
+    password: "",
+    profileImage: null
 });
+
+const filePreview = ref(null);
 
 const messageSuccess = ref(false);
 
+const handleFileUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+        userInfos.profileImage = file;
+        const reader = new FileReader();
+        reader.onload = () => {
+            filePreview.value = reader.result;
+        };
+        reader.readAsDataURL(file);
+    }
+};
+
 watch(() => userInfos.username, (newValue) => {
     console.log(newValue, 'vvvv');
-})
+});
 
 const handleSubmit = async () => {
-    const {putData, data} = useFetchPut(`/api/profil/updateUserProfil`, userInfos);
-    const payload = {
-        user: {
-            username: userInfos.username,
-            email: userInfos.email,
-            password: userInfos.password
-        }
+    const { putData, data } = useFetchPut(`/api/profil/updateUserProfil`, userInfos);
+    const formData = new FormData();
+    formData.append("username", userInfos.username);
+    formData.append("email", userInfos.email);
+    formData.append("password", userInfos.password);
+    if (userInfos.profileImage) {
+        formData.append("profileImage", userInfos.profileImage);
     }
-    await putData(payload)
+    await putData(formData);
     if (data.value?.success) {
         messageSuccess.value = true;
         emit('updateUserData', { username: userInfos.username, email: userInfos.email });
     }
-}
-
+};
 </script>
 
 <template>
   <div class="modal-overlay">
     <div class="modal-content">
       <span @click="closeModal" class="close-btn">×</span>
-      <h2>Modifier ton profil</h2>
+      <h2>Modifier mon profil</h2>
 
       <form @submit.prevent="handleSubmit" class="group">
         <div class="input-group">
-        <label for="username">Nom d'utilisateur</label>
-        <input 
-            type="text" 
-            id="username" 
-            v-model="userInfos.username" 
-            :placeholder="userData?.user?.username"
-            autocomplete=""
-        />
+          <label for="username">Nom d'utilisateur</label>
+          <input 
+              type="text" 
+              id="username" 
+              v-model="userInfos.username" 
+              :placeholder="userData?.user?.username"
+              autocomplete=""
+          />
         </div>
 
         <div class="input-group">
-        <label for="email">Email</label>
-        <input 
-            type="email" 
-            id="email" 
-            v-model="userInfos.email" 
-            :placeholder="userData?.user?.email"
-            autocomplete
-        />
+          <label for="email">Email</label>
+          <input 
+              type="email" 
+              id="email" 
+              v-model="userInfos.email" 
+              :placeholder="userData?.user?.email"
+              autocomplete
+          />
         </div>
 
         <div class="input-group">
-        <label for="password">Mot de passe</label>
-        <input 
-            type="password" 
-            id="password" 
-            v-model="userInfos.password" 
-            :placeholder="userData?.user?.password"
-            autocomplete
-        />
+          <label for="password">Mot de passe</label>
+          <input 
+              type="password" 
+              id="password" 
+              v-model="userInfos.password" 
+              :placeholder="userData?.user?.password"
+              autocomplete
+          />
+        </div>
+
+        <div class="input-group">
+          <p>Modifier la photo de profil</p>
+          <input 
+              type="file" 
+              id="file-upload" 
+              @change="handleFileUpload" 
+              accept="image/*" 
+              style="display:none" 
+          />
+          <router-link v-if="profileImage" to="/profil" class="profilPicture">
+            <img
+                v-if="profileImage"
+                :src="profileImage"
+                alt="Photo de profil"
+                class="profilImage"
+            />
+          </router-link>
+          <!-- <label for="file-upload" class="file-upload-label">
+            <span v-if="userInfos.profileImage" class="file-name">Image sélectionnée</span>
+            <img v-if="!filePreview && !userInfos.profileImage" 
+                 src="https://static.vecteezy.com/ti/vecteur-libre/t1/2318271-icone-de-profil-utilisateur-vectoriel.jpg" 
+                 alt="Icône de profil" 
+                 class="profile-icon" />
+            <img v-else :src="filePreview" alt="Prévisualisation" class="profile-icon" />
+          </label> -->
         </div>
 
         <div class="form-actions">
@@ -142,6 +193,12 @@ const handleSubmit = async () => {
         text-align: left;
     }
 
+    .input-group p {
+        color: #003e66;
+        display: flex;
+        justify-content: center;
+    }
+
     .input-group label {
         display: block;
         font-size: 14px;
@@ -160,10 +217,6 @@ const handleSubmit = async () => {
     .input-group input:focus {
         border-color: #333;
         outline: none;
-    }
-
-    .form-actions {
-        margin-top: 20px;
     }
 
     .form-actions button {
@@ -186,6 +239,42 @@ const handleSubmit = async () => {
 
     .messageSuccess {
         margin-top: 20px;
+    }
+
+    .profile-icon {
+        height: 40px;
+        width: 40px;
+        border-radius: 50%;
+    }
+
+    .file-upload-label {
+        display: inline-block;
+        background-color: white;
+        color: white;
+        font-size: 14px;
+        cursor: pointer;
+        border-radius: 4px;
+        margin: 10px 0;
+        text-align: center;
+        transition: background-color 0.3s ease;
+    }
+
+    .file-upload-label:hover {
+        background-color: white;
+    }
+
+    .profilImage {
+        width: 50px;
+        height: 50px;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 2px solid #ddd;
+    }
+
+    .profilPicture {
+        display: flex;
+        justify-content: center;
+        margin-top: 6px;
     }
 
     @media (max-width: 768px) {

@@ -1,7 +1,7 @@
 <script setup>
     import {defineProps} from "vue"
     const {quizQuestionLength, numberOfCorrectAnswers, scores} = defineProps(["quizQuestionLength", "numberOfCorrectAnswers", "scores"])
-    
+    const emit = defineEmits();
     const formatDate = (date) => {
         return new Date(date).toLocaleDateString('fr-FR', {
             year: 'numeric',
@@ -11,6 +11,10 @@
             minute: '2-digit'
         })
     }
+
+    const resetQuiz = () => {
+        emit('reset')
+    }
 </script>
 
 <template>
@@ -18,6 +22,9 @@
         <h3>Votre résultat</h3>
         <p v-if="numberOfCorrectAnswers === quizQuestionLength"> Bravo, tu as réussi entièrement le quizz ! 🎉 </p>
         <h1>{{numberOfCorrectAnswers}}/{{quizQuestionLength}}</h1>
+        <span v-if="numberOfCorrectAnswers != quizQuestionLength" class="message">
+            <button @click="resetQuiz">Recommencer le Quiz</button>
+        </span>
         <span>Vos derniers résultats</span>
         <div class="containerScores">
             <div class="scores" v-for="(score) in scores" :key="score.id">
@@ -54,4 +61,27 @@
     .scores span {
         font-weight: bold;
     }
+
+    .message {
+        margin-bottom: 20px;
+    }
+
+    button {
+        margin-bottom: 10px;
+        background-color: black;
+        color: white;
+        padding: 10px 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: all 0.3s ease;
+    }
+
+    button:hover {
+        background-color: #333;
+        transform: scale(1.05);
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+
 </style>
