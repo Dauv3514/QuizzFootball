@@ -11,7 +11,8 @@ export default function useFetchPut(url) {
         error.value = null
         try {
             const res = await axios.put(url, payload, {
-                withCredentials: true
+                withCredentials: true,
+                headers: {}
             })
             data.value = res.data
             console.log('Données mises à jour:', res.data)

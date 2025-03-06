@@ -1,7 +1,7 @@
 <script setup>
 import useFetchPut from "../hooks/useFetchPut";
 import useFetch from "../hooks/useFetch";
-import {reactive, ref, defineEmits, defineProps, watch, computed} from 'vue';
+import {reactive, ref, defineEmits, defineProps, computed} from 'vue';
 
 const emit = defineEmits();
 const { isModalOpen, userData } = defineProps(['isModalOpen', 'userData']);
@@ -12,8 +12,6 @@ const profileImage = computed(() => {
     ? `/api/uploads/${getUserProfil.value.user.profile_image}` 
     : null;
 })
-
-console.log(profileImage,'rrf');
 
 const closeModal = () => {
     emit('close');
@@ -27,7 +25,7 @@ const userInfos = reactive({
 });
 
 const filePreview = ref(null);
-
+const fileInput = ref(null);
 const messageSuccess = ref(false);
 
 const handleFileUpload = (event) => {
@@ -42,25 +40,40 @@ const handleFileUpload = (event) => {
     }
 };
 
-watch(() => userInfos.username, (newValue) => {
-    console.log(newValue, 'vvvv');
-});
-
 const handleSubmit = async () => {
-    const { putData, data } = useFetchPut(`/api/profil/updateUserProfil`, userInfos);
     const formData = new FormData();
-    formData.append("username", userInfos.username);
-    formData.append("email", userInfos.email);
-    formData.append("password", userInfos.password);
-    if (userInfos.profileImage) {
-        formData.append("profileImage", userInfos.profileImage);
+    const { putData, data } = useFetchPut(`/api/profil/updateUserProfil`, formData);
+
+    if (userInfos.username !== userData.user.username) {
+        formData.append("username", userInfos.username);
     }
+    if (userInfos.email !== userData.user.email) {
+        formData.append("email", userInfos.email);
+    }
+    if (userInfos.password !== userData.user.password) {
+        formData.append("password", userInfos.password);
+    }
+    if (userInfos.profileImage !== userData.user.profile_image) {
+        formData.append("profile_image", userInfos.profileImage);
+    }
+
     await putData(formData);
     if (data.value?.success) {
         messageSuccess.value = true;
-        emit('updateUserData', { username: userInfos.username, email: userInfos.email });
+        emit('updateUserData', { 
+            username: userInfos.username, 
+            email: userInfos.email,
+            profileImage: userInfos.profileImage
+        });
+    } else {
+        messageSuccess.value = false;
     }
 };
+
+const triggerFileInput = () => {
+  fileInput.value.click();
+};
+
 </script>
 
 <template>
@@ -98,28 +111,34 @@ const handleSubmit = async () => {
               type="password" 
               id="password" 
               v-model="userInfos.password" 
-              :placeholder="userData?.user?.password"
+              placeholder="********"
               autocomplete
           />
         </div>
 
         <div class="input-group">
           <p>Modifier la photo de profil</p>
-          <input 
-              type="file" 
-              id="file-upload" 
-              @change="handleFileUpload" 
-              accept="image/*" 
-              style="display:none" 
-          />
-          <router-link v-if="profileImage" to="/profil" class="profilPicture">
-            <img
-                v-if="profileImage"
-                :src="profileImage"
-                alt="Photo de profil"
-                class="profilImage"
+
+          <div class="profilPicture" @click="triggerFileInput">
+            <img 
+              :src="filePreview || profileImage || 'https://static.vecteezy.com/ti/vecteur-libre/t1/2318271-icone-de-profil-utilisateur-vectoriel.jpg'" 
+              alt="Photo de profil" 
+              class="profilImage"
             />
-          </router-link>
+          </div>
+
+          <!-- Input caché pour l'upload -->
+          <input
+            type="file"
+            accept="image/*"
+            @change="handleFileUpload"
+            ref="fileInput"
+            style="display: none"
+          />
+        </div>
+
+        
+
           <!-- <label for="file-upload" class="file-upload-label">
             <span v-if="userInfos.profileImage" class="file-name">Image sélectionnée</span>
             <img v-if="!filePreview && !userInfos.profileImage" 
@@ -128,7 +147,6 @@ const handleSubmit = async () => {
                  class="profile-icon" />
             <img v-else :src="filePreview" alt="Prévisualisation" class="profile-icon" />
           </label> -->
-        </div>
 
         <div class="form-actions">
           <button type="submit">Sauvegarder</button>
@@ -269,6 +287,7 @@ const handleSubmit = async () => {
         object-fit: cover;
         border-radius: 50%;
         border: 2px solid #ddd;
+        cursor: pointer;
     }
 
     .profilPicture {

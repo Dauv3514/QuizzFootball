@@ -62,6 +62,7 @@
   const updateUserData = (updatedUser) => {
       userData.value.user.username = updatedUser.username;
       userData.value.user.email = updatedUser.email;
+      userData.value.user.profile_image = updatedUser.profile_image;
   }
 </script>
 
