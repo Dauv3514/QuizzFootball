@@ -47,7 +47,7 @@
             answerMessage.value = "Mauvaise réponse"
         }
         if(data.value.questions.length - 1 === currentQuestionIndex.value) {
-            showResults.value = truex
+            showResults.value = true
         }
         currentQuestionIndex.value++
         if(isLastQuestion) {

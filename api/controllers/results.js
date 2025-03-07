@@ -99,6 +99,7 @@ export const getAllScoresUsers = (req, res) => {
             r.created_at, 
             r.totalquestions, 
             r.theme_id,
+            r.user_id,
             u.username
         FROM results r
         JOIN users u ON r.user_id = u.id
@@ -117,6 +118,30 @@ export const getAllScoresUsers = (req, res) => {
         }
         return res.status(200).json({
             scores: data.rows
+        });
+    });
+}
+
+export const getQuizAttempts = (req, res) => {
+
+    const query = `
+        SELECT user_id, COUNT(*) AS quiz_attempts
+        FROM results
+        GROUP BY user_id;
+    `;
+
+    client.query(query, (err, data) => {
+        if(err) {
+            console.error('Erreur SQL:', err);
+            return res.status(500).json({
+                success: false,
+                message: "Erreur lors de la récupération des scores",
+                error: err
+            });
+        }
+        return res.status(200).json({
+            success: true,
+            attempts: data.rows
         });
     });
 }

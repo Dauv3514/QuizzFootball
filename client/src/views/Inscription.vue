@@ -41,7 +41,6 @@
     }
     await postData(formData);
       if (data.value?.success) {
-      console.log(data.value.user, 'vc');
       authStore.setUser(data.value.user)
       router.push('/');
     }

@@ -9,7 +9,6 @@
   const {data: getUserProfil} = useFetch(`/api/profil/getUserProfil`);
   const {data: themes, loading, error} = useFetch(`/api/themes`)
   const { refetch: fetchScore } = useFetch()
-  console.log(getUserProfil, 'trrr');
 
   const filteredData = ref([])
   const authStore = useAuthStore()
@@ -18,7 +17,7 @@
     ? `/api/uploads/${getUserProfil.value.user.profile_image}` 
     : null;
   })
-  console.log(profileImage,'rrf');
+
   const filteredThemes = computed(() => 
     filteredData.value.filter(theme => 
       theme.name.toLowerCase().includes(search.value.toLowerCase())
