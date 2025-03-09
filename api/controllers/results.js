@@ -43,6 +43,8 @@ export const addResultsUser = async (req, res) => {
     }
 }
 
+// Fonction pour calculer le nombre de quiz terminés du User
+
 const calculerQuizTermines = async (userId) => {
     const query = `
         SELECT COUNT(DISTINCT theme_id)
@@ -54,6 +56,8 @@ const calculerQuizTermines = async (userId) => {
     return parseInt(result.rows[0].count);
 }
 
+// Fonction pour calculer le nombre total de tentatives du User
+
 const calculerTentatives = async (userId) => {
     const query = `
         SELECT COUNT(*)
@@ -64,6 +68,8 @@ const calculerTentatives = async (userId) => {
     const result = await client.query(query, values);
     return parseInt(result.rows[0].count);
 }
+
+// Fonction pour attribuer un Badge à un User
 
 const attribuerBadges = async (userId, quizTermines, tentatives) => {
     const badgesQuizTermines = [
