@@ -134,3 +134,33 @@ export const getStatsUser = (req, res) => {
         })
     });
 }
+
+export const getBadgesUser = (req, res) => {
+    const userId= req.user.id;
+    if(!userId) {
+        return res.status(201).json ({
+            success: false,
+            message: 'Utilisateur non authentifié'
+        })
+    }
+    const query = `
+        SELECT badge_name, badge_icon , created_at
+        FROM user_badge
+        LEFT JOIN badges
+        ON user_badge.badge_id = badges.id
+        WHERE user_id = $1
+    `
+
+    client.query(query, [userId], (err, data) => {
+        if(err) {
+            console.error("Erreur SQL:", err);
+            return res.status(500).json({
+                success: false,
+                message: "Erreur lors de la récupération des Badges du User"
+            });
+        }
+        return res.status(200).json({
+            badges: data.rows
+        })
+    })
+}

@@ -140,14 +140,14 @@ const attribuerBadges = async (userId, quizTermines, tentatives) => {
 
     // Vérifier et attribuer les badges pour les quiz terminés
     for (const badge of badgesQuizTermines) {
-        if (quizTermines >= badge.min && quizTermines <= badge.max) {
+        if (quizTermines >= badge.min) {
             await attribuerBadge(badge.badge, badge.icon, userId);
         }
     }
 
     // Vérifier et attribuer les badges pour les tentatives
     for (const badge of badgesTentatives) {
-        if (tentatives >= badge.min && tentatives <= badge.max) {
+        if (tentatives >= badge.min) {
             await attribuerBadge(badge.badge, badge.icon, userId);
         }
     }
