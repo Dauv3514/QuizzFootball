@@ -137,17 +137,6 @@ const triggerFileInput = () => {
           />
         </div>
 
-        
-
-          <!-- <label for="file-upload" class="file-upload-label">
-            <span v-if="userInfos.profileImage" class="file-name">Image sélectionnée</span>
-            <img v-if="!filePreview && !userInfos.profileImage" 
-                 src="https://static.vecteezy.com/ti/vecteur-libre/t1/2318271-icone-de-profil-utilisateur-vectoriel.jpg" 
-                 alt="Icône de profil" 
-                 class="profile-icon" />
-            <img v-else :src="filePreview" alt="Prévisualisation" class="profile-icon" />
-          </label> -->
-
         <div class="form-actions">
           <button type="submit">Sauvegarder</button>
         </div>
