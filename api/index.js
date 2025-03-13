@@ -8,12 +8,14 @@ import resultsRoute from "./routes/results.js";
 import profilRoute from "./routes/profil.js";
 import dotenv from 'dotenv';
 import { verifyToken } from "../api/middlewares/auth.js";
+import { connectRedis } from './redis.js';
 
 dotenv.config();
 
 const connect = async () => {
     try {
         await client.connect();
+        await connectRedis();
         const app = express();
         
         app.use(cors());

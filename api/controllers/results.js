@@ -1,5 +1,6 @@
 import client from "../database.js"
 import { calculerQuizTermines, calculerTentatives, attribuerBadges } from "../services/badges.js";
+import { redisClient } from "../redis.js"; 
 
 export const addResultsUser = async (req, res) => {
     try {
@@ -44,9 +45,22 @@ export const addResultsUser = async (req, res) => {
     }
 }
 
-export const getBestScoreUser = (req, res) => {
+export const getBestScoreUser = async (req, res) => {
     const userId = req.user.id;
     const themeId = parseInt(req.params.themeId);
+
+    // Vérifier si la donnée existe déjà dans Redis
+    const cacheKey = `bestScore:${userId}:${themeId}`;
+    const cachedScore = await redisClient.get(cacheKey);
+
+    if (cachedScore) {
+        // Si la donnée est dans le cache, renvoyer directement
+        console.log(cachedScore, 'oui');
+        return res.status(200).json({
+            success: true,
+            bestScore: cachedScore
+        });
+    }
 
     const query = `
         SELECT MAX(score)
@@ -56,20 +70,40 @@ export const getBestScoreUser = (req, res) => {
 
     const values = [userId, themeId];
 
-    client.query(query, values, (err, data) => {
-        if(err) {
-            console.error('Erreur SQL:', err);
-            return res.status(500).json({
-                success: false,
-                message: "Erreur lors de la récupération du meilleur score",
-                error: err
-            });
-        }
+    try {
+        const { rows } = await client.query(query, values);
+
+        // Cache du score dans Redis
+        await redisClient.set(cacheKey, rows[0].max, 'EX', 3600); // Expire après 1 heure
+
         return res.status(200).json({
             success: true,
-            bestScore: data.rows[0].max
+            bestScore: rows[0].max
         });
-    });
+    } catch (err) {
+        console.error('Erreur SQL:', err);
+        return res.status(500).json({
+            success: false,
+            message: "Erreur lors de la récupération du meilleur score",
+            error: err
+        });
+    }
+
+    // client.query(query, values, (err, data) => {
+    //     if(err) {
+    //         console.error('Erreur SQL:', err);
+    //         return res.status(500).json({
+    //             success: false,
+    //             message: "Erreur lors de la récupération du meilleur score",
+    //             error: err
+    //         });
+    //     }
+    //     await redisClient.set(cacheKey, data.rows[0].max, 'EX', 3600);
+    //     return res.status(200).json({
+    //         success: true,
+    //         bestScore: data.rows[0].max
+    //     });
+    // });
 }
 
 export const getAllScoresUser = (req, res) => {
