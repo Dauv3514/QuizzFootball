@@ -88,22 +88,6 @@ export const getBestScoreUser = async (req, res) => {
             error: err
         });
     }
-
-    // client.query(query, values, (err, data) => {
-    //     if(err) {
-    //         console.error('Erreur SQL:', err);
-    //         return res.status(500).json({
-    //             success: false,
-    //             message: "Erreur lors de la récupération du meilleur score",
-    //             error: err
-    //         });
-    //     }
-    //     await redisClient.set(cacheKey, data.rows[0].max, 'EX', 3600);
-    //     return res.status(200).json({
-    //         success: true,
-    //         bestScore: data.rows[0].max
-    //     });
-    // });
 }
 
 export const getAllScoresUser = (req, res) => {
