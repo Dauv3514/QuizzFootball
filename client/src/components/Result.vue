@@ -1,6 +1,11 @@
 <script setup>
     import {defineProps} from "vue"
-    const {quizQuestionLength, numberOfCorrectAnswers, scores} = defineProps(["quizQuestionLength", "numberOfCorrectAnswers", "scores"])
+    const {
+            quizQuestionLength, 
+            numberOfCorrectAnswers, 
+            formattedScores
+        } = defineProps(["quizQuestionLength", "numberOfCorrectAnswers", "formattedScores"])
+    
     const emit = defineEmits();
     const formatDate = (date) => {
         return new Date(date).toLocaleDateString('fr-FR', {
@@ -15,6 +20,8 @@
     const resetQuiz = () => {
         emit('reset')
     }
+
+    console.log(formattedScores.scores, 'hein');
 </script>
 
 <template>
@@ -27,9 +34,10 @@
         </span>
         <span>Vos derniers résultats</span>
         <div class="containerScores">
-            <div class="scores" v-for="(score) in scores" :key="score.id">
-                <small>Le {{formatDate(score.created_at)}}</small>
-                <p><span>{{score.score}}</span>/{{ score.totalquestions}}</p>
+            <div class="scores" v-for="(score) in formattedScores.scores" :key="score.id">
+                <small>Le {{ formatDate(score.created_at) }}</small>
+                <p><span>{{ score.score }}</span>/{{ score.totalquestions }}</p>
+                <p>⏱️ en {{ score.timetaken }} secondes</p>
             </div>
         </div>
     </div>

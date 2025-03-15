@@ -8,7 +8,7 @@
     const authStore = useAuthStore()
 
     const navigateToQuiz = () => {
-        router.push(`/quiz/${data.id}`)
+        router.push(`/quiz/${data.id}`);
     }
 
 </script>

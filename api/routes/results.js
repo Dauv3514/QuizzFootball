@@ -4,7 +4,7 @@ import {
     getBestScoreUser, 
     getAllScoresUser, 
     getAllScoresUsers, 
-    getQuizAttempts 
+    getQuizAttempts
 } from "../controllers/results.js";
 import { verifyToken } from "../middlewares/auth.js";
 
@@ -15,4 +15,5 @@ router.get("/themes/:themeId/best-score", verifyToken, getBestScoreUser);
 router.get("/themes/:themeId/scores", verifyToken, getAllScoresUser);
 router.get("/themes/:themeId/scoresUsers", verifyToken, getAllScoresUsers);
 router.get("/quizAttempts", verifyToken, getQuizAttempts);
+
 export default router;

@@ -7,8 +7,8 @@ export const addResultsUser = async (req, res) => {
         const userId = req.user.id;
         const themeId = parseInt(req.params.themeId);
         const query = `
-            INSERT INTO results (user_id, theme_id, score, totalquestions, created_at) 
-            VALUES ($1, $2, $3, $4, $5) 
+            INSERT INTO results (user_id, theme_id, score, totalquestions, created_at, timetaken) 
+            VALUES ($1, $2, $3, $4, $5, $6) 
             RETURNING *
         `;
 
@@ -17,7 +17,8 @@ export const addResultsUser = async (req, res) => {
             themeId,
             req.body.score, 
             req.body.totalquestions, 
-            new Date()
+            new Date(),
+            req.body.timetaken
         ];
         const {rows} = await client.query(query, values);
         const quizTermines = await calculerQuizTermines(userId);
@@ -55,7 +56,6 @@ export const getBestScoreUser = async (req, res) => {
 
     if (cachedScore) {
         // Si la donnée est dans le cache, renvoyer directement
-        console.log(cachedScore, 'oui');
         return res.status(200).json({
             success: true,
             bestScore: cachedScore
@@ -100,7 +100,7 @@ export const getAllScoresUser = (req, res) => {
     const themeId = parseInt(req.params.themeId);
 
     const query = `
-        SELECT score, created_at, totalquestions
+        SELECT score, created_at, totalquestions, timetaken
         FROM results
         WHERE user_id = $1 AND theme_id = $2
         ORDER BY created_at DESC
@@ -130,7 +130,7 @@ export const getAllScoresUsers = (req, res) => {
         SELECT DISTINCT ON (r.user_id, r.theme_id)
             r.score, 
             r.created_at, 
-            r.totalquestions, 
+            r.totalquestions,
             r.theme_id,
             r.user_id,
             u.username
@@ -158,7 +158,9 @@ export const getAllScoresUsers = (req, res) => {
 export const getQuizAttempts = (req, res) => {
 
     const query = `
-        SELECT user_id, COUNT(*) AS quiz_attempts
+        SELECT user_id, 
+            COUNT(*) AS quiz_attempts
+            AVG(timetaken) AS average_time
         FROM results
         GROUP BY user_id;
     `;

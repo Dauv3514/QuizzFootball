@@ -6,9 +6,10 @@
     import Answers from "../components/Answers.vue"
     import Index from "../components/Index.vue"
     import {useRoute} from "vue-router"
-    import {ref, computed, watch} from "vue"
+    import {ref, computed, watch, onMounted} from "vue"
     import useFetch from "../hooks/useFetch";
     import useFetchPost from "../hooks/useFetchPost";
+    import {useQuizTimeTaken} from '../stores/quizTimeTaken';
 
     const route = useRoute()
     const themeId = parseInt(route.params.id);
@@ -18,24 +19,35 @@
         console.log("Données reçues :", newData);
     });
 
+    console.log(data, 'nbnb')
+
     const currentQuestionIndex = ref(0)
     const numberOfCorrectAnswers = ref(0)
     const answerMessage = ref('')
     const showResults = ref(false)
     const userAnswers = ref([])
+    const quizStore = useQuizTimeTaken();
     const lastQuestion = computed(()=> currentQuestionIndex.value === data.value.questions.length)
     const quizQuestionLength = computed(() => data.value?.questions?.length)
     const currentQuestion = computed(() => data.value?.questions?.[currentQuestionIndex.value])
     const questionStatus = computed(()=> `${currentQuestionIndex.value}/${data.value?.questions?.length}`)
     const barPercentage = computed(()=> `${currentQuestionIndex.value/data.value?.questions?.length * 100}%`)
-    
+    const formattedScores = computed(() => allScoresUser.value);
+
+    console.log(formattedScores, 'tr');
+
     const resetQuiz = () => {
         currentQuestionIndex.value = 0
         numberOfCorrectAnswers.value = 0
         userAnswers.value = []
         showResults.value = false
     }
-    
+
+    onMounted(() => {
+        if (!quizStore.startTime.value) {
+            quizStore.startQuiz();
+        }
+    });
     
     const onOptionSelected = async ({text, isCorrect, isLastQuestion}) => {
         userAnswers.value.push(text);
@@ -51,18 +63,29 @@
         }
         currentQuestionIndex.value++
         if(isLastQuestion) {
+                   
+            if (!quizStore.startTime.value) {
+                console.error("startTime n'est pas encore défini.");
+                return; 
+            }
+
+            const endTime = Date.now();
+            const timeTaken = Math.floor((endTime - quizStore.startTime.value) / 1000); // Calcul du temps écoulé en secondes
+            console.log("startTime:", quizStore.startTime.value);
+            console.log("endTime:", endTime);
+
             try {
-                const {postData} = useFetchPost(`/api/results/themes/${themeId}`)
+                const { postData } = useFetchPost(`/api/results/themes/${themeId}`);
                 const payload = {
                     score: numberOfCorrectAnswers.value,
                     totalquestions: quizQuestionLength.value,
-                    userAnswers: userAnswers.value
-                }
-                await postData(payload)
-                await refetchScores()
-
+                    userAnswers: userAnswers.value,
+                    timetaken: timeTaken,
+                };
+                await postData(payload);
+                await refetchScores();
             } catch (error) {
-                console.error('Erreur lors de l\'enregistrement du score:', error)
+                console.error('Erreur lors de l\'enregistrement du score:', error);
             }
         }
     }
@@ -99,7 +122,7 @@
                 v-else 
                 :quizQuestionLength="quizQuestionLength"
                 :numberOfCorrectAnswers="numberOfCorrectAnswers"
-                :scores="allScoresUser.scores || []"
+                :formattedScores="formattedScores"
                 @reset="resetQuiz"
             />
             <Index 
