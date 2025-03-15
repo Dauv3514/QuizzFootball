@@ -1,5 +1,6 @@
 import client from "../database.js"
 import bcrypt from "bcryptjs";
+import { redisClient } from "../redis.js"; 
 
 export const getUserProfil = (req, res) => {
     const userId = req.user.id;
@@ -135,13 +136,17 @@ export const getStatsUser = (req, res) => {
     });
 }
 
-export const getBadgesUser = (req, res) => {
+export const getBadgesUser = async (req, res) => {
     const userId= req.user.id;
     if(!userId) {
         return res.status(201).json ({
             success: false,
             message: 'Utilisateur non authentifié'
         })
+    }
+    const cachedBadges = await redisClient.get(`userBadges:${userId}`);
+    if(cachedBadges) {
+        return res.status(200).json({ badges: JSON.parse(cachedBadges)});
     }
     const query = `
         SELECT badge_name, badge_icon , created_at
@@ -151,7 +156,7 @@ export const getBadgesUser = (req, res) => {
         WHERE user_id = $1
     `
 
-    client.query(query, [userId], (err, data) => {
+    client.query(query, [userId], async (err, data) => {
         if(err) {
             console.error("Erreur SQL:", err);
             return res.status(500).json({
@@ -159,6 +164,7 @@ export const getBadgesUser = (req, res) => {
                 message: "Erreur lors de la récupération des Badges du User"
             });
         }
+        await redisClient.set(`userBadges:${userId}`, JSON.stringify(data.rows), 'EX', 3600); // Expire après 1 heure
         return res.status(200).json({
             badges: data.rows
         })

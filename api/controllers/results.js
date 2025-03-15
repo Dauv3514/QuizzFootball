@@ -73,9 +73,14 @@ export const getBestScoreUser = async (req, res) => {
     try {
         const { rows } = await client.query(query, values);
 
-        // Cache du score dans Redis
-        await redisClient.set(cacheKey, rows[0].max, 'EX', 3600); // Expire après 1 heure
-
+        if (rows[0].max !== null && rows[0].max !== undefined) {
+            await redisClient.set(cacheKey, rows[0].max, 'EX', 3600); // Expire après 1 heure
+            const cachedValue = await redisClient.get(cacheKey);
+            console.log("🔍 Vérification immédiate : Score dans Redis =", cachedValue);
+        } else {
+            console.log("⚠️ Aucun score trouvé en base de données.");
+        }
+        
         return res.status(200).json({
             success: true,
             bestScore: rows[0].max

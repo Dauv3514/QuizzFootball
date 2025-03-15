@@ -8,7 +8,7 @@ import resultsRoute from "./routes/results.js";
 import profilRoute from "./routes/profil.js";
 import dotenv from 'dotenv';
 import { verifyToken } from "../api/middlewares/auth.js";
-import { connectRedis } from './redis.js';
+import { connectRedis, redisClient } from './redis.js';
 
 dotenv.config();
 
@@ -21,6 +21,18 @@ const connect = async () => {
         app.use(cors());
         app.use(cookieParser());
         app.use(express.json());
+
+        app.get("/api/redis/:key", async (req, res) => {
+            try {
+                const key = req.params.key;
+                const value = await redisClient.get(key);
+                if (value) return res.json({key, value});
+                return res.status(404).json({ message: "Clé non trouvée dans Redis." });
+            } catch {
+                console.error("Erreur Redis:", error);
+                return res.status(500).json({error: "Erreur Redis"});
+            }
+        })
 
         app.use("/api/uploads", express.static("uploads"));
         app.use("/api/auth", authRoute);
