@@ -34,8 +34,6 @@
     const barPercentage = computed(()=> `${currentQuestionIndex.value/data.value?.questions?.length * 100}%`)
     const formattedScores = computed(() => allScoresUser.value);
 
-    console.log(formattedScores, 'tr');
-
     const resetQuiz = () => {
         currentQuestionIndex.value = 0
         numberOfCorrectAnswers.value = 0
@@ -71,8 +69,6 @@
 
             const endTime = Date.now();
             const timeTaken = Math.floor((endTime - quizStore.startTime.value) / 1000); // Calcul du temps écoulé en secondes
-            console.log("startTime:", quizStore.startTime.value);
-            console.log("endTime:", endTime);
 
             try {
                 const { postData } = useFetchPost(`/api/results/themes/${themeId}`);

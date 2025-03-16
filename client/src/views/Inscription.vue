@@ -27,11 +27,6 @@
   };
   
   const handleSubmit = async () => {
-    // const payload = {
-    //   username: username.value,
-    //   password: password.value,
-    //   email: email.value
-    // }
     const formData = new FormData();
     formData.append("username", username.value);
     formData.append("email", email.value);
