@@ -159,8 +159,8 @@ export const getQuizAttempts = (req, res) => {
 
     const query = `
         SELECT user_id, 
-            COUNT(*) AS quiz_attempts
-            AVG(timetaken) AS average_time
+            COUNT(*) AS quiz_attempts,
+            ROUND(AVG(timetaken), 2) AS average_time
         FROM results
         GROUP BY user_id;
     `;

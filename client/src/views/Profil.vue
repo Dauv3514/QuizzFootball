@@ -42,18 +42,20 @@
             username: item.username,
             completedQuizzes: 1,
             attempts: 0,
+            average_time: 0
           };
         }
       }
     });
 
     if (getQuizAttempts.value && Array.isArray(getQuizAttempts.value.attempts)) {
-      getQuizAttempts.value.attempts.forEach(attempt => {
-          Object.values(usersStats).forEach(user => {
-        if (user.user_id === attempt.user_id) {
-          user.attempts = parseInt(attempt.quiz_attempts, 10); // Convertir en nombre
-        }
-      });
+        getQuizAttempts.value.attempts.forEach(attempt => {
+            Object.values(usersStats).forEach(user => {
+          if (user.user_id === attempt.user_id) {
+            user.attempts = parseInt(attempt.quiz_attempts, 10);
+            user.average_time = attempt.average_time;
+          }
+        });
       });
     } else {
       console.warn("Données de quizAttempts non disponibles ou attempts n'est pas un tableau.");
@@ -73,6 +75,7 @@
         completedQuizzes: 0,
         attempts: 0,
         successRate: 0,
+        average_time: 0
       };
     }
 
@@ -180,6 +183,7 @@
                 <th>Quiz terminés</th>
                 <th>Tentatives aux quiz</th>
                 <th>Pourcentage de réussite</th>
+                <th>Réponse moyenne aux quiz</th>
               </tr>
             </thead>
             <tbody>
@@ -193,6 +197,7 @@
                 <td>{{ userStats.completedQuizzes }}</td>
                 <td>{{ userStats.attempts }}</td>
                 <td>{{ userStats.successRate.toFixed(2) }}%</td>
+                <td>{{ userStats.average_time }}s</td>
               </tr>
             </tbody>
           </table>
