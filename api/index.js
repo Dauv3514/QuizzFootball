@@ -1,5 +1,6 @@
 import client from "./database.js";
 import express from "express";
+import helmet from "helmet";
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import themesRoute from "./routes/themes.js";
@@ -21,6 +22,7 @@ const connect = async () => {
         app.use(cors());
         app.use(cookieParser());
         app.use(express.json());
+        app.use(helmet());
 
         app.get("/api/redis/:key", async (req, res) => {
             try {

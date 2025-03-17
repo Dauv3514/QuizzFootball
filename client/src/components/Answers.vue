@@ -7,7 +7,7 @@
         answerResponses.value = !answerResponses.value
     }
 
-    const props = defineProps(["answersTrue", "userAnswers"]);
+    const props = defineProps(["correctAnswers", "userAnswers"]);
 
 </script>
 
@@ -19,12 +19,12 @@
         <div v-if="answerResponses" class="answersTrue">
             <div
                 v-if="answerResponses"
-                v-for="(answer, index) in props.answersTrue" 
+                v-for="(answer, index) in props.correctAnswers" 
                 :key="index"
                 class="answer-item"
             >
                 <span>{{ index + 1 }} - {{ answer }}</span>
-                <div v-if="props.answersTrue[index] === props.userAnswers[index]" class="checkmark"></div>
+                <div v-if="props.correctAnswers[index] === props.userAnswers[index]" class="checkmark"></div>
                 <div v-else class="close-btn">x</div>
             </div>
         </div>

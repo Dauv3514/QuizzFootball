@@ -1,12 +1,14 @@
 <script setup>
-  import useFetch from "../hooks/useFetch";
   import {ref, computed} from "vue"
-  import EditProfil from "../components/EditProfil.vue"
   import {useRoute} from "vue-router"
   import { useAuthStore } from '../stores/auth'
+  import useFetch from "../hooks/useFetch";
+  import EditProfil from "../components/EditProfil.vue"
 
+  // Variables de stockage d'état
   const isModalOpen = ref(false);
 
+  // Récupération des données utilisateur
   const route = useRoute()
   const themeId = route.params.themeId;
   const authStore = useAuthStore()
@@ -17,8 +19,7 @@
   const {data: getQuizAttempts} = useFetch(`/api/results/quizAttempts`);
   const {data: getBadgesUser} = useFetch(`/api/profil/getBadgesUser`);
 
-  console.log(getBadgesUser, 'ok');
-
+  // Calculs dérivés
   const profileImage = computed(() => {
     return getUserProfil.value && getUserProfil.value.user 
     ? `/api/uploads/${getUserProfil.value.user.profile_image}` 
@@ -83,6 +84,7 @@
       .sort((a,b) => b.completedQuizzes - a.completedQuizzes);
   });
 
+  // Logique de gestion du profil
   const getBadgeDescription = (badgeName) => {
     return badgeDescriptions[badgeName] || "Aucune description disponible";
   }

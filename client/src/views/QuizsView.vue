@@ -1,17 +1,20 @@
 <script setup>
-  import {ref, watch, computed, onMounted} from "vue"
+  import {ref, watch, computed} from "vue"
   import Card from "../components/Card.vue"
   import Logout from "../components/Logout.vue"
   import useFetch from "../hooks/useFetch";
   import { useAuthStore } from '../stores/auth'
 
+  // Variables de stockage d'état
   const search = ref("")
+  const filteredData = ref([])
+  const authStore = useAuthStore()
+
+  // Appels API
   const {data: getUserProfil} = useFetch(`/api/profil/getUserProfil`);
   const {data: themes, loading, error} = useFetch(`/api/themes`)
   const { refetch: fetchScore } = useFetch()
 
-  const filteredData = ref([])
-  const authStore = useAuthStore()
   const profileImage = computed(() => {
     return getUserProfil.value && getUserProfil.value.user 
     ? `/api/uploads/${getUserProfil.value.user.profile_image}` 
@@ -23,9 +26,16 @@
       theme.name.toLowerCase().includes(search.value.toLowerCase())
     )
   )
+
   const fetchThemeScore = async (themeId) => {
-    return await fetchScore(`/api/results/themes/${themeId}/best-score`)
-  }
+    try {
+      const response = await fetchScore(`/api/results/themes/${themeId}/best-score`);
+      return response;
+    } catch (err) {
+      console.error(`Erreur lors de la récupération du score du thème ${themeId}`, err);
+      return { bestScore: 0 };
+    }
+  };
 
   watch(themes, () => {
     if (themes.value) {
