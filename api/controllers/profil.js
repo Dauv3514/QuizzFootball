@@ -2,7 +2,7 @@ import client from "../database.js"
 import bcrypt from "bcryptjs";
 import { redisClient } from "../redis.js"; 
 
-export const getUserProfil = (req, res) => {
+export const getUserProfil = async (req, res) => {
     const userId = req.user.id;
     if (!userId) {
         return res.status(401).json({
@@ -10,24 +10,26 @@ export const getUserProfil = (req, res) => {
             message: "Utilisateur non authentifié"
         });
     }
+
     const query = `
         SELECT username, email, created_at, profile_image, password
         FROM users
         WHERE id = $1
     `;
-    client.query(query, [userId], (err, data) => {
-        if (err) {
-            console.error("Erreur SQL:", err);
-            return res.status(500).json({
-                success: false,
-                message: "Erreur lors de la récupération des infos du User"
-            });
-        }
+
+    try {
+        const { rows } = await client.query(query, [userId]);
         return res.status(200).json({
-            user: data.rows[0]
-        })
-    });
-}
+            user: rows[0]
+        });
+    } catch (err) {
+        console.error("Erreur SQL:", err);
+        return res.status(500).json({
+            success: false,
+            message: "Erreur lors de la récupération des infos du User"
+        });
+    }
+};
 
 export const updateUserProfil = (req, res) => {
     const userId = req.user.id;
@@ -139,7 +141,7 @@ export const getStatsUser = (req, res) => {
 export const getBadgesUser = async (req, res) => {
     const userId= req.user.id;
     if(!userId) {
-        return res.status(201).json ({
+        return res.status(401).json ({
             success: false,
             message: 'Utilisateur non authentifié'
         })
