@@ -18,7 +18,7 @@
   const {data: getUserProfil} = useFetch(`/api/profil/getUserProfil`);
   const {data: getQuizAttempts} = useFetch(`/api/results/quizAttempts`);
   const {data: getBadgesUser} = useFetch(`/api/profil/getBadgesUser`);
-
+  console.log(getBadgesUser, ' attention');
   // Calculs dérivés
   const profileImage = computed(() => {
     return getUserProfil.value && getUserProfil.value.user 

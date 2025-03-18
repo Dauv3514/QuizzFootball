@@ -1,5 +1,10 @@
 import client from "../database.js"
-import { calculerQuizTermines, calculerTentatives, attribuerBadges } from "../services/badges.js";
+import { 
+            calculerQuizTermines, 
+            calculerTentatives,
+            calculerTempsDeReponseQuiz,
+            attribuerBadges
+       } from "../services/badges.js";
 import { redisClient } from "../redis.js"; 
 
 export const addResultsUser = async (req, res) => {
@@ -23,8 +28,9 @@ export const addResultsUser = async (req, res) => {
         const {rows} = await client.query(query, values);
         const quizTermines = await calculerQuizTermines(userId);
         const tentatives = await calculerTentatives(userId);
+        const times = await calculerTempsDeReponseQuiz(userId);
 
-        await attribuerBadges(userId, quizTermines, tentatives);
+        await attribuerBadges(userId, quizTermines, tentatives, times);
 
         return res.status(200).json({
             success: true,
@@ -80,7 +86,6 @@ export const getBestScoreUser = async (req, res) => {
         } else {
             console.log("⚠️ Aucun score trouvé en base de données.");
         }
-        
         return res.status(200).json({
             success: true,
             bestScore: rows[0].max

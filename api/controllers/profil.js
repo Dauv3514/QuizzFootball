@@ -155,7 +155,7 @@ export const getBadgesUser = async (req, res) => {
         FROM user_badge
         LEFT JOIN badges
         ON user_badge.badge_id = badges.id
-        WHERE user_id = $1
+        WHERE user_badge.user_id = $1;
     `
 
     client.query(query, [userId], async (err, data) => {
@@ -163,10 +163,11 @@ export const getBadgesUser = async (req, res) => {
             console.error("Erreur SQL:", err);
             return res.status(500).json({
                 success: false,
-                message: "Erreur lors de la récupération des Badges du User"
+                message: "Erreur lors de la rcupération des Badges du User"
             });
         }
         await redisClient.set(`userBadges:${userId}`, JSON.stringify(data.rows), 'EX', 3600); // Expire après 1 heure
+        console.log("Badges stockés dans Redis:", data.rows);
         return res.status(200).json({
             badges: data.rows
         })
